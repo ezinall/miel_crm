@@ -6,7 +6,7 @@ from django.db import models
 import uuid
 from datetime import date
 
-from users.models import User
+from core.models import User
 from .owner import Owner
 from .ad import ApartmentType
 
@@ -153,6 +153,7 @@ class Apartment(models.Model):
     date_pub = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
     date_change = models.DateTimeField(auto_now=True, verbose_name='Последнее изменение')
     name = models.CharField(max_length=LEN_FIELD, verbose_name='Название')
+    active = models.BooleanField(default=True, verbose_name='Активный')
 
     class Meta:
         verbose_name = 'Объект'

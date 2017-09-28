@@ -1,5 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
-/miel_crm/settings/local.py
+.idea/
 /env/
+/miel_crm/settings/local.py
 /miel_crm/db.sqlite3
 */migrations/0*.py

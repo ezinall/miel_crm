@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class CbaseConfig(AppConfig):
-    name = 'cbase'
+    name = 'app_cbase'
