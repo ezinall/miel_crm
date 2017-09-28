@@ -30,18 +30,6 @@ class NumbersRooms(models.Model):
         return self.name
 
 
-class Windows(models.Model):
-    name = models.CharField(max_length=LEN_FIELD, verbose_name='Окна')
-    alias = models.SlugField(max_length=LEN_FIELD)
-
-    class Meta:
-        verbose_name = 'Окна'
-        verbose_name_plural = 'Окна'
-
-    def __str__(self):
-        return self.name
-
-
 class RepairsType(models.Model):
     name = models.CharField(max_length=LEN_FIELD, verbose_name='Ремонт')
     alias = models.SlugField(max_length=LEN_FIELD)
@@ -54,7 +42,7 @@ class RepairsType(models.Model):
         return self.name
 
 
-class NamesPlace(models):
+class NamesPlace(models.Model):
     name = models.CharField(max_length=LEN_FIELD, verbose_name='ЖК')
     alias = models.SlugField(max_length=LEN_FIELD)
 
@@ -132,7 +120,8 @@ class Apartment(models.Model):
     kitchen_area = models.FloatField(verbose_name='Кухня')
     loggia = models.IntegerField(validators=[0, 4], verbose_name='Лоджия')
     balcony = models.IntegerField(validators=[0, 4], verbose_name='Балкон')
-    windows = models.ManyToManyField(Windows, blank=True, verbose_name='Окна выходят')
+    windows_yard = models.BooleanField(blank=True, verbose_name='Во двор')
+    windows_street = models.BooleanField(blank=True, verbose_name='На улицу')
     separate_bath = models.IntegerField(validators=[0, 4], verbose_name='Раздельные санузлы')
     combine_bath = models.IntegerField(validators=[0, 4], verbose_name='Совмещенные санузлы')
     repairs = models.ForeignKey(RepairsType, verbose_name='Ремонт')
@@ -141,7 +130,7 @@ class Apartment(models.Model):
     name_place = models.ForeignKey(NamesPlace, blank=True, verbose_name='Название')
     year = models.PositiveIntegerField(validators=[1420, date.today().year], verbose_name='Год постройки')
     house_type = models.ForeignKey(HouseType, verbose_name='Тип дома')
-    house_ver = models.CharField(blank=True, verbose_name='Серия дома')
+    house_ver = models.CharField(max_length=LEN_FIELD, blank=True, verbose_name='Серия дома')
     ceiling = models.FloatField(default=2.7, verbose_name='Высота потолков')
     pas_lift = models.IntegerField(validators=[0, 4], verbose_name='Пассажирский лифт')
     ser_lift = models.IntegerField(validators=[0, 4], verbose_name='Грузовой лифт')

@@ -1,0 +1,117 @@
+[
+  {
+    "model": "cbase.TransactionType",
+    "pk": 1,
+    "fields": {
+      "name": "Аренда",
+      "alias": "lease"
+    }
+  },
+  {
+    "model": "cbase.TransactionType",
+    "pk": 2,
+    "fields": {
+      "name": "Продажа",
+      "alias": "sale"
+    }
+  },
+  {
+    "model": "cbase.PropertyType",
+    "pk": 1,
+    "fields": {
+      "transaction": [2],
+      "name": "Жилая",
+      "alias": "residential"
+    }
+  },
+  {
+    "model": "cbase.PropertyType",
+    "pk": 2,
+    "fields": {
+      "transaction": [2],
+      "name": "Коммерческая",
+      "alias": "commercial"
+    }
+  },
+  {
+    "model": "cbase.Apartment",
+    "pk": 1,
+    "fields": {
+      "property": [1],
+      "name": "Квартира",
+      "alias": "apartment"
+    }
+  },
+  {
+    "model": "cbase.Apartment",
+    "pk": 2,
+    "fields": {
+      "property": [1],
+      "name": "Квартира в новостройке",
+      "alias": "apartment_new"
+    }
+  },
+  {
+    "model": "cbase.Apartment",
+    "pk": 3,
+    "fields": {
+      "property": [1],
+      "name": "Комната",
+      "alias": "room"
+    }
+  },
+  {
+    "model": "cbase.Apartment",
+    "pk": 4,
+    "fields": {
+      "property": [1],
+      "name": "Доля в квартире",
+      "alias": "apartment_part"
+    }
+  },
+  {
+    "model": "cbase.Apartment",
+    "pk": 5,
+    "fields": {
+      "property": [1],
+      "name": "Дом/Дача",
+      "alias": "house"
+    }
+  },
+  {
+    "model": "cbase.Apartment",
+    "pk": 6,
+    "fields": {
+      "property": [1],
+      "name": "Коттедж",
+      "alias": "cottage"
+    }
+  },
+  {
+    "model": "cbase.Apartment",
+    "pk": 7,
+    "fields": {
+      "property": [1],
+      "name": "Таунхаус",
+      "alias": "townhouse"
+    }
+  },
+  {
+    "model": "cbase.Apartment",
+    "pk": 8,
+    "fields": {
+      "property": [1],
+      "name": "Часть дома",
+      "alias": "house_part"
+    }
+  },
+  {
+    "model": "cbase.Apartment",
+    "pk": 9,
+    "fields": {
+      "property": [1],
+      "name": "Участок",
+      "alias": "area"
+    }
+  }
+]

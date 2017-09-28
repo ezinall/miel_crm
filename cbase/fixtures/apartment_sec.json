@@ -1,0 +1,226 @@
+[
+  {
+    "model": "cbase.NumbersRooms",
+    "pk": 1,
+    "fields": {
+      "name": "1",
+      "alias": "1"
+    }
+  },
+  {
+    "model": "cbase.NumbersRooms",
+    "pk": 2,
+    "fields": {
+      "name": "2",
+      "alias": "2"
+    }
+  },
+  {
+    "model": "cbase.NumbersRooms",
+    "pk": 3,
+    "fields": {
+      "name": "3",
+      "alias": "3"
+    }
+  },
+  {
+    "model": "cbase.NumbersRooms",
+    "pk": 4,
+    "fields": {
+      "name": "4",
+      "alias": "4"
+    }
+  },
+  {
+    "model": "cbase.NumbersRooms",
+    "pk": 5,
+    "fields": {
+      "name": "5",
+      "alias": "5"
+    }
+  },
+  {
+    "model": "cbase.NumbersRooms",
+    "pk": 6,
+    "fields": {
+      "name": "6 и более",
+      "alias": "6"
+    }
+  },
+  {
+    "model": "cbase.NumbersRooms",
+    "pk": 7,
+    "fields": {
+      "name": "свободная планировка",
+      "alias": "free"
+    }
+  },
+  {
+    "model": "cbase.NumbersRooms",
+    "pk": 8,
+    "fields": {
+      "name": "студия",
+      "alias": "studio"
+    }
+  },
+  {
+    "model": "cbase.RepairsType",
+    "pk": 1,
+    "fields": {
+      "name": "Косметический",
+      "alias": "cosmetic"
+    }
+  },
+  {
+    "model": "cbase.RepairsType",
+    "pk": 2,
+    "fields": {
+      "name": "Евро",
+      "alias": "euro"
+    }
+  },
+  {
+    "model": "cbase.RepairsType",
+    "pk": 3,
+    "fields": {
+      "name": "Дизайнерский",
+      "alias": "designer"
+    }
+  },
+  {
+    "model": "cbase.RepairsType",
+    "pk": 4,
+    "fields": {
+      "name": "Без ремонта",
+      "alias": "without_repair"
+    }
+  },
+  {
+    "model": "cbase.HouseType",
+    "pk": 1,
+    "fields": {
+      "name": "Кирпичный",
+      "alias": "brick"
+    }
+  },
+  {
+    "model": "cbase.HouseType",
+    "pk": 2,
+    "fields": {
+      "name": "Монолитный",
+      "alias": "monolithic"
+    }
+  },
+  {
+    "model": "cbase.HouseType",
+    "pk": 3,
+    "fields": {
+      "name": "Панельный",
+      "alias": "panel"
+    }
+  },
+  {
+    "model": "cbase.HouseType",
+    "pk": 4,
+    "fields": {
+      "name": "Блочный",
+      "alias": "blocky"
+    }
+  },
+  {
+    "model": "cbase.HouseType",
+    "pk": 5,
+    "fields": {
+      "name": "Деревянный",
+      "alias": "wood"
+    }
+  },
+  {
+    "model": "cbase.HouseType",
+    "pk": 6,
+    "fields": {
+      "name": "Монолитно-Кирпичный",
+      "alias": "monobrick"
+    }
+  },
+  {
+    "model": "cbase.HouseType",
+    "pk": 7,
+    "fields": {
+      "name": "Сталинский",
+      "alias": "stalin"
+    }
+  },
+  {
+    "model": "cbase.ParkingType",
+    "pk": 1,
+    "fields": {
+      "name": "Наземная",
+      "alias": "ground"
+    }
+  },
+  {
+    "model": "cbase.ParkingType",
+    "pk": 2,
+    "fields": {
+      "name": "Многоуровневая",
+      "alias": "multilevel"
+    }
+  },
+  {
+    "model": "cbase.ParkingType",
+    "pk": 3,
+    "fields": {
+      "name": "Подземная",
+      "alias": "underground"
+    }
+  },
+  {
+    "model": "cbase.ParkingType",
+    "pk": 4,
+    "fields": {
+      "name": "На крыше",
+      "alias": "onroof"
+    }
+  },
+  {
+    "model": "cbase.PriseType",
+    "pk": 1,
+    "fields": {
+      "name": "₽",
+      "alias": "rub"
+    }
+  },
+  {
+    "model": "cbase.PriseType",
+    "pk": 2,
+    "fields": {
+      "name": "$",
+      "alias": "usd"
+    }
+  },
+  {
+    "model": "cbase.PriseType",
+    "pk": 3,
+    "fields": {
+      "name": "€",
+      "alias": "eur"
+    }
+  },
+  {
+    "model": "cbase.SaleType",
+    "pk": 1,
+    "fields": {
+      "name": "Свободная продажа",
+      "alias": "free"
+    }
+  },
+  {
+    "model": "cbase.SaleType",
+    "pk": 2,
+    "fields": {
+      "name": "Альтернатива",
+      "alias": "alt"
+    }
+  }
+]

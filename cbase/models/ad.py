@@ -6,7 +6,7 @@ from django.db import models
 LEN_FIELD = 100
 
 
-class TransactionType(models):  # аренда, продажа
+class TransactionType(models.Model):  # аренда, продажа
     name = models.CharField(max_length=LEN_FIELD, verbose_name='Тип сделки')
     alias = models.SlugField(max_length=LEN_FIELD)
 
@@ -18,7 +18,7 @@ class TransactionType(models):  # аренда, продажа
         return self.name
 
 
-class PropertyType(models):  # тип недвижимости жилая коммерческая
+class PropertyType(models.Model):  # тип недвижимости жилая коммерческая
     transaction = models.ForeignKey(TransactionType, verbose_name='Тип сделки')
     name = models.CharField(max_length=LEN_FIELD, verbose_name='Тип недвижимости')
     alias = models.SlugField(max_length=LEN_FIELD)
