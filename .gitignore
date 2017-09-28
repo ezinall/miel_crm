@@ -2,3 +2,4 @@
 /miel_crm/settings/local.py
 /env/
 /miel_crm/db.sqlite3
+*/migrations/0*.py

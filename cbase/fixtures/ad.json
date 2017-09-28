@@ -19,7 +19,7 @@
     "model": "cbase.PropertyType",
     "pk": 1,
     "fields": {
-      "transaction": [2],
+      "transaction": 2,
       "name": "Жилая",
       "alias": "residential"
     }
@@ -28,88 +28,88 @@
     "model": "cbase.PropertyType",
     "pk": 2,
     "fields": {
-      "transaction": [2],
+      "transaction": 2,
       "name": "Коммерческая",
       "alias": "commercial"
     }
   },
   {
-    "model": "cbase.Apartment",
+    "model": "cbase.ApartmentType",
     "pk": 1,
     "fields": {
-      "property": [1],
+      "property": 1,
       "name": "Квартира",
       "alias": "apartment"
     }
   },
   {
-    "model": "cbase.Apartment",
+    "model": "cbase.ApartmentType",
     "pk": 2,
     "fields": {
-      "property": [1],
+      "property": 1,
       "name": "Квартира в новостройке",
       "alias": "apartment_new"
     }
   },
   {
-    "model": "cbase.Apartment",
+    "model": "cbase.ApartmentType",
     "pk": 3,
     "fields": {
-      "property": [1],
+      "property": 1,
       "name": "Комната",
       "alias": "room"
     }
   },
   {
-    "model": "cbase.Apartment",
+    "model": "cbase.ApartmentType",
     "pk": 4,
     "fields": {
-      "property": [1],
+      "property": 1,
       "name": "Доля в квартире",
       "alias": "apartment_part"
     }
   },
   {
-    "model": "cbase.Apartment",
+    "model": "cbase.ApartmentType",
     "pk": 5,
     "fields": {
-      "property": [1],
+      "property": 1,
       "name": "Дом/Дача",
       "alias": "house"
     }
   },
   {
-    "model": "cbase.Apartment",
+    "model": "cbase.ApartmentType",
     "pk": 6,
     "fields": {
-      "property": [1],
+      "property": 1,
       "name": "Коттедж",
       "alias": "cottage"
     }
   },
   {
-    "model": "cbase.Apartment",
+    "model": "cbase.ApartmentType",
     "pk": 7,
     "fields": {
-      "property": [1],
+      "property": 1,
       "name": "Таунхаус",
       "alias": "townhouse"
     }
   },
   {
-    "model": "cbase.Apartment",
+    "model": "cbase.ApartmentType",
     "pk": 8,
     "fields": {
-      "property": [1],
+      "property": 1,
       "name": "Часть дома",
       "alias": "house_part"
     }
   },
   {
-    "model": "cbase.Apartment",
+    "model": "cbase.ApartmentType",
     "pk": 9,
     "fields": {
-      "property": [1],
+      "property": 1,
       "name": "Участок",
       "alias": "area"
     }

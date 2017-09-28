@@ -34,12 +34,12 @@ class PropertyType(models.Model):  # тип недвижимости жилая 
 class ApartmentType(models.Model):  # Квартира, Квартира в новостройке, Комната, Доля в квартире, Дом/Дача, Коттедж,
     # Таунхаус, Часть дома, Участок
     property = models.ForeignKey(PropertyType, verbose_name='Тип недвижимости')
-    name = models.CharField(max_length=LEN_FIELD, verbose_name='Недвижимости')
+    name = models.CharField(max_length=LEN_FIELD, verbose_name='Тип объекта')
     alias = models.SlugField(max_length=LEN_FIELD)
 
     class Meta:
-        verbose_name = 'Недвижимости'
-        verbose_name_plural = 'Недвижимости'
+        verbose_name = 'Тип объекта'
+        verbose_name_plural = 'Типы объектов'
 
     def __str__(self):
         return self.name

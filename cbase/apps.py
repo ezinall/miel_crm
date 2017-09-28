@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class ObaseConfig(AppConfig):
+class CbaseConfig(AppConfig):
     name = 'cbase'
