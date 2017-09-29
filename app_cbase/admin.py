@@ -13,7 +13,7 @@ class CommentInline(admin.StackedInline):
 
 class ApartmentSecAdmin(admin.ModelAdmin):
     list_display = ['name', 'major']
-    readonly_fields = ['date_pub', 'date_change', 'active']
+    readonly_fields = ['date_pub', 'date_change']
     inlines = [CommentInline]
     fieldsets = (
         (None, {

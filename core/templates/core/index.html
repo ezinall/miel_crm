@@ -1,122 +1,14 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>MIEL {% block title %}{% endblock %}</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="{% static 'core/style.css' %}" rel="stylesheet">
-  </head>
-
-  <body>
-    <nav class="navbar navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">МИЭЛЬ</a>
-    </nav>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-2">
-          <div class="list-group">
-            <a href="#" class="list-group-item active">Cras justo odio</a>
-            <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-            <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-            <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-            <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
-          </div>
-        </div>
-        <div class="col-sm-9">
-          <form class="form-horizontal">
-            <fieldset>
-              <legend>Legend</legend>
-              <div class="form-group">
-                <label for="inputEmail" class="col-lg-2 control-label">Email</label>
-                <div class="col-lg-10">
-                  <input type="text" class="form-control" id="inputEmail" placeholder="Email">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputPassword" class="col-lg-2 control-label">Password</label>
-                <div class="col-lg-10">
-                  <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox"> Checkbox
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="textArea" class="col-lg-2 control-label">Textarea</label>
-                <div class="col-lg-10">
-                  <textarea class="form-control" rows="3" id="textArea"></textarea>
-                  <span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-2 control-label">Radios</label>
-                <div class="col-lg-10">
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                      Option one is this
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                      Option two can be something else
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="select" class="col-lg-2 control-label">Selects</label>
-                <div class="col-lg-10">
-                  <select class="form-control" id="select">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                  <br>
-                  <select multiple="" class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                  <button type="reset" class="btn btn-default">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-              </div>
-            </fieldset>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../../../../assets/js/vendor/popper.min.js"></script>
-    <script src="../../../../dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../../../assets/js/ie10-viewport-bug-workaround.js"></script>
-  </body>
-</html>
+{% extends 'core/base.html' %}
+{% block title %}{% endblock %}
+{% block menu %}
+  <div class="list-group">
+    <a href="#" class="list-group-item list-group-item-action">Новости</a>
+    <a href="{% url 'core:objects' %}" class="list-group-item list-group-item-action">Мои объекты</a>
+    <a href="#" class="list-group-item list-group-item-action">Задачи</a>
+    <a href="#" class="list-group-item list-group-item-action">Календарь</a>
+    <a href="#" class="list-group-item list-group-item-action">Документы</a>
+    <a href="#" class="list-group-item list-group-item-action">Объекты</a>
+  </div>
+{% endblock %}
+{% block content %}
+{% endblock %}

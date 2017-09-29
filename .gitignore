@@ -3,4 +3,5 @@
 /env/
 /miel_crm/settings/local.py
 /miel_crm/db.sqlite3
-*/migrations/0*.py
+*/migrations/00*.py
+SECRET_KEY.txt

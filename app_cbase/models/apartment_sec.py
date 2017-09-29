@@ -3,6 +3,8 @@ from django.db import models
 
 # Create your models here.
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 import uuid
 from datetime import date
 
@@ -103,8 +105,8 @@ class SaleType(models.Model):
 
 
 class Apartment(models.Model):
-    owner = models.ForeignKey(Owner, blank=True, verbose_name='Собственник')
-    date_start = models.DateTimeField(blank=True, verbose_name='Начало продаж')
+    owner = models.ForeignKey(Owner, blank=True, null=True, verbose_name='Собственник')
+    date_start = models.DateTimeField(blank=True, null=True, verbose_name='Начало продаж')
 
     app_type = models.ForeignKey(ApartmentType, default=0, verbose_name='Тип недвижимости')
 
@@ -113,27 +115,27 @@ class Apartment(models.Model):
     apartments = models.BooleanField(default=False, verbose_name='Апартаменты')
     penthouse = models.BooleanField(default=False, verbose_name='Пентхаус')
     total_area = models.FloatField(verbose_name='Общая площадь')
-    floors = models.IntegerField(default=1, verbose_name='Этажей в доме')
-    floor = models.IntegerField(validators=[1, floors], verbose_name='Этаж')
+    floors = models.IntegerField(verbose_name='Этажей в доме')
+    floor = models.IntegerField(verbose_name='Этаж')  # validators=[1, floors],
     rooms_area = models.CharField(max_length=LEN_FIELD, verbose_name='Площадь комнат')
     living_area = models.FloatField(verbose_name='Жилая площадь')
     kitchen_area = models.FloatField(verbose_name='Кухня')
-    loggia = models.IntegerField(default=0, validators=[0, 4], verbose_name='Лоджия')
-    balcony = models.IntegerField(default=0, validators=[0, 4], verbose_name='Балкон')
+    loggia = models.IntegerField(default=0, verbose_name='Лоджия')  # validators=[0, 4],
+    balcony = models.IntegerField(default=0, verbose_name='Балкон')  # validators=[0, 4],
     windows_yard = models.BooleanField(blank=True, verbose_name='Во двор')
     windows_street = models.BooleanField(blank=True, verbose_name='На улицу')
-    separate_bath = models.IntegerField(default=0, validators=[0, 4], verbose_name='Раздельные санузлы')
-    combine_bath = models.IntegerField(default=0, validators=[0, 4], verbose_name='Совмещенные санузлы')
+    separate_bath = models.IntegerField(default=0, verbose_name='Раздельные санузлы')  # validators=[0, 4],
+    combine_bath = models.IntegerField(default=0, verbose_name='Совмещенные санузлы')  # validators=[0, 4],
     repairs = models.ForeignKey(RepairsType, default=0, verbose_name='Ремонт')
-    phone = models.BooleanField(default=False, verbose_name='Телефон')
+    phone = models.BooleanField(default=True, verbose_name='Телефон')
 
-    name_place = models.ForeignKey(NamesPlace, blank=True, verbose_name='Название')
-    year = models.PositiveIntegerField(validators=[1420, date.today().year], verbose_name='Год постройки')
+    name_place = models.ForeignKey(NamesPlace, blank=True, null=True, verbose_name='Название')
+    year = models.PositiveIntegerField(blank=True, verbose_name='Год постройки')  # validators=[1420, int(date.today().year)],
     house_type = models.ForeignKey(HouseType, default=3, verbose_name='Тип дома')
     house_ver = models.CharField(max_length=LEN_FIELD, blank=True, verbose_name='Серия дома')
-    ceiling = models.FloatField(default=2.7, validators=[1, 10], verbose_name='Высота потолков')
-    pas_lift = models.IntegerField(validators=[0, 4], verbose_name='Пассажирский лифт')
-    ser_lift = models.IntegerField(validators=[0, 4], verbose_name='Грузовой лифт')
+    ceiling = models.FloatField(default=2.7, verbose_name='Высота потолков')  # validators=[1, 10],
+    pas_lift = models.IntegerField(default=1, verbose_name='Пассажирский лифт')  # validators=[0, 4],
+    ser_lift = models.IntegerField(default=0, verbose_name='Грузовой лифт')  # validators=[MinValueValidator(0), MaxValueValidator(4)],
     ramp = models.BooleanField(default=True, verbose_name='Пандус')
     chute = models.BooleanField(default=True, verbose_name='Мусоропровод')
     parking = models.ForeignKey(ParkingType, default=0, verbose_name='Парковка')
@@ -148,7 +150,7 @@ class Apartment(models.Model):
     sale_type = models.ForeignKey(SaleType, default=0, verbose_name='Тип продажи')
     bonus = models.BooleanField(default=False, verbose_name='Бонус агенту')
 
-    major = models.ForeignKey(User, blank=True, verbose_name='Ответственный')
+    major = models.ForeignKey(User, blank=True, null=True, verbose_name='Ответственный')
     comm = models.CharField(max_length=LEN_FIELD, verbose_name='Комиссия')
     date_pub = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
     date_change = models.DateTimeField(auto_now=True, verbose_name='Последнее изменение')

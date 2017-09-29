@@ -14,9 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from django.views.generic import TemplateView
+from . import views
 
 app_name = 'core'
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='core/index.html'), name='index'),
+    url(r'^$', views.index_view, name='index'),
+    url(r'^login/$', views.login_view, name='login'),
+    url(r'^logout/$', views.logout_view, name='logout'),
+    url(r'^objects/$', views.objects_view, name='objects'),
 ]
