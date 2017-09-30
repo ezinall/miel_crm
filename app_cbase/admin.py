@@ -5,8 +5,13 @@ from django.contrib import admin
 from .models import *
 
 
-class CommentInline(admin.StackedInline):
-    model = Comment
+class ImagesInline(admin.StackedInline):
+    model = Images
+    extra = 1
+
+
+class CommentsInline(admin.StackedInline):
+    model = Comments
     extra = 1
     readonly_fields = ['date_pub']
 
@@ -14,7 +19,7 @@ class CommentInline(admin.StackedInline):
 class ApartmentSecAdmin(admin.ModelAdmin):
     list_display = ['name', 'major']
     readonly_fields = ['date_pub', 'date_change']
-    inlines = [CommentInline]
+    inlines = [ImagesInline, CommentsInline]
     fieldsets = (
         (None, {
             'fields': (
@@ -39,15 +44,15 @@ class ApartmentSecAdmin(admin.ModelAdmin):
                 'ramp',
                 'chute',
                 'parking',
-                ('image', 'video'),
+                'video',
                 'info',
                 ('prise', 'prise_type', 'mortgage'),
                 'sale_type',
                 'bonus',
-                ('major', 'comm'),
+                ('major', 'comm', 'comm_type'),
                 ('date_pub', 'date_change'),
                 'name',
-                'active'
+                ('active', 'calls', 'views', 'status'),
             )
         }),
     )

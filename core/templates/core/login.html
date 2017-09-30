@@ -21,12 +21,27 @@
   <body>
 
     <div class="container">
-
       <form action="" method="post" class="form-signin">
 				{% csrf_token %}
         <h2 class="form-signin-heading">Вход</h2>
-        <input type="text" name='username' id="inputEmail" class="form-control" placeholder="Логин" required autofocus>
-        <input type="password" name='password' id="inputPassword" class="form-control" placeholder="Пароль" required>
+        <div class="form-group">
+          <input type="text" name='username' id="inputEmail" class="form-control" placeholder="Логин" required autofocus>
+        </div>
+        <div class="form-group">
+          <input type="password" name='password' id="inputPassword" class="form-control" placeholder="Пароль" required>
+        </div>
+        <div class="form-group">
+        {% if error %}
+          <div class="alert alert-danger" role="alert">
+            Неверное имя пользователя или пароль!
+          </div>
+        {% endif %}
+        {% if noactive %}
+          <div class="alert alert-danger" role="alert">
+            Пользователь неативен!
+          </div>
+        {% endif %}
+        </div>
         <!--<div class="checkbox">-->
           <!--<label>-->
             <!--<input type="checkbox" value="remember-me"> Remember me-->
@@ -34,7 +49,6 @@
         <!--</div>-->
         <button class="btn btn-lg btn-primary btn-block" type="submit">Вход</button>
       </form>
-
     </div> <!-- /container -->
 
     <!-- Bootstrap core JavaScript

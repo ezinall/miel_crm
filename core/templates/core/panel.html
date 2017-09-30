@@ -1,0 +1,72 @@
+{% extends 'core/base.html' %}
+{% block title %}Профиль{% endblock %}
+{% block menu %}
+  <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+    <ul class="nav nav-pills flex-column">
+      <li class="nav-item"><a class="nav-link active" href="{% url 'core:panel' %}">Панель управления</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'core:objects' %}">Объекты</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'core:calendar' %}">Календарь</a></li>
+    </ul>
+    <ul class="nav nav-pills flex-column">
+      <li class="nav-item"><a class="nav-link" href="{% url 'core:news' %}">Новости</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'core:docs' %}">Документы</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'core:contacts' %}">Контакты</a></li>
+    </ul>
+  </nav>
+{% endblock %}
+{% block content %}
+  <h2>Объекты</h2>
+  <div class="table-responsive">
+    <table class="table table-sm table-nonfluid">
+      <thead>
+        <tr>
+          <th>Дата добавления</th>
+          <th></th>
+          <th>Адрес, цена, комиссия</th>
+          <th>Звоники и показы</th>
+          <th>Статус</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in objects %}
+        <tr>
+          <td>
+            {{ object.date_pub.date }}
+          </td>
+          <td>
+            {% if object.images_set.first %}
+              {{ object.images_set.first }}
+            {% endif %}
+          </td>
+          <td>
+            {{ object.name }}<br />
+            <small>{{ object.metro }}</small><br />
+            <small>комнат: {{ object.rooms }}, {{ object.total_area }} м<sup>2</sup>, этаж {{ object.floor }}/{{ object.floors }}</small><br />
+            {{ object.prise }} {{ object.prise_type }} <small>комиссия: {{ object.comm }} {{ object.comm_type }}</small><br />
+          </td>
+          <td>
+            {{ object.calls }}<br />
+            {{ object.views }}
+          </td>
+          <td>
+            {{ object.status }}
+          </td>
+          <td>
+            <div class="btn-group">
+              <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

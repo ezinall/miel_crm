@@ -6,7 +6,6 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 import uuid
-from datetime import date
 
 from core.models import User
 from .owner import Owner
@@ -104,8 +103,44 @@ class SaleType(models.Model):
         return self.name
 
 
+class CommType(models.Model):  # ₽ $ €
+    name = models.CharField(max_length=LEN_FIELD, verbose_name='Валюта')
+    alias = models.SlugField(max_length=LEN_FIELD)
+
+    class Meta:
+        verbose_name = 'Валюта'
+        verbose_name_plural = 'Валюта'
+
+    def __str__(self):
+        return self.name
+
+
+class StatusType(models.Model):
+    name = models.CharField(max_length=LEN_FIELD, verbose_name='Статус')
+    alias = models.SlugField(max_length=LEN_FIELD)
+
+    class Meta:
+        verbose_name = 'Статус'
+        verbose_name_plural = 'Статусы'
+
+    def __str__(self):
+        return self.name
+
+
+class MetroType(models.Model):
+    name = models.CharField(max_length=LEN_FIELD, verbose_name='Название')
+    alias = models.SlugField(max_length=LEN_FIELD)
+
+    class Meta:
+        verbose_name = 'Метро'
+        verbose_name_plural = 'Метро'
+
+    def __str__(self):
+        return self.name
+
+
 class Apartment(models.Model):
-    owner = models.ForeignKey(Owner, blank=True, null=True, verbose_name='Собственник')
+    owner = models.ForeignKey(Owner, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Собственник')
     date_start = models.DateTimeField(blank=True, null=True, verbose_name='Начало продаж')
 
     app_type = models.ForeignKey(ApartmentType, default=0, verbose_name='Тип недвижимости')
@@ -129,7 +164,9 @@ class Apartment(models.Model):
     repairs = models.ForeignKey(RepairsType, default=0, verbose_name='Ремонт')
     phone = models.BooleanField(default=True, verbose_name='Телефон')
 
-    name_place = models.ForeignKey(NamesPlace, blank=True, null=True, verbose_name='Название')
+    metro = models.ForeignKey(MetroType, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Метро')
+
+    name_place = models.ForeignKey(NamesPlace, blank=True, null=True, verbose_name='Название ЖК')
     year = models.PositiveIntegerField(blank=True, verbose_name='Год постройки')  # validators=[1420, int(date.today().year)],
     house_type = models.ForeignKey(HouseType, default=3, verbose_name='Тип дома')
     house_ver = models.CharField(max_length=LEN_FIELD, blank=True, verbose_name='Серия дома')
@@ -140,7 +177,6 @@ class Apartment(models.Model):
     chute = models.BooleanField(default=True, verbose_name='Мусоропровод')
     parking = models.ForeignKey(ParkingType, default=0, verbose_name='Парковка')
 
-    image = models.ImageField(upload_to=image_path_with_name, blank=True, verbose_name='Фото')
     video = models.URLField(blank=True, verbose_name='Видео')
     info = models.TextField(verbose_name='Описание')
 
@@ -150,12 +186,16 @@ class Apartment(models.Model):
     sale_type = models.ForeignKey(SaleType, default=0, verbose_name='Тип продажи')
     bonus = models.BooleanField(default=False, verbose_name='Бонус агенту')
 
-    major = models.ForeignKey(User, blank=True, null=True, verbose_name='Ответственный')
+    major = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Ответственный')
     comm = models.CharField(max_length=LEN_FIELD, verbose_name='Комиссия')
+    comm_type = models.ForeignKey(CommType, default=0, verbose_name='Валюта')
     date_pub = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
     date_change = models.DateTimeField(auto_now=True, verbose_name='Последнее изменение')
     name = models.CharField(max_length=LEN_FIELD, verbose_name='Название')
     active = models.BooleanField(default=True, verbose_name='Активный')
+    calls = models.IntegerField(default=0, verbose_name='Звонки')
+    views = models.IntegerField(default=0, verbose_name='Показы')
+    status = models.ForeignKey(StatusType, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Статус')
 
     class Meta:
         verbose_name = 'Объект'
@@ -165,8 +205,20 @@ class Apartment(models.Model):
         return self.name
 
 
-class Comment(models.Model):
-    apartment = models.ForeignKey(Apartment, verbose_name='Квартира')
+class Images(models.Model):
+    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE, verbose_name='Квартира')
+    image = models.ImageField(upload_to=image_path_with_name, blank=True, verbose_name='Фото')
+
+    class Meta:
+        verbose_name = 'Фотография'
+        verbose_name_plural = 'Фотографии'
+
+    def __str__(self):
+        return self.apartment.name or None
+
+
+class Comments(models.Model):
+    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE, verbose_name='Квартира')
     author = models.ForeignKey(User, verbose_name='Автор')
     date_pub = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
     text = models.TextField(verbose_name='Текст')
