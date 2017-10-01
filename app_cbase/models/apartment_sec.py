@@ -3,8 +3,6 @@ from django.db import models
 
 # Create your models here.
 
-from django.core.validators import MinValueValidator, MaxValueValidator
-
 import uuid
 
 from core.models import User
@@ -117,6 +115,7 @@ class CommType(models.Model):  # ₽ $ €
 
 class StatusType(models.Model):
     name = models.CharField(max_length=LEN_FIELD, verbose_name='Статус')
+    color = models.CharField(max_length=LEN_FIELD, verbose_name='Цвет')
     alias = models.SlugField(max_length=LEN_FIELD)
 
     class Meta:
@@ -141,7 +140,7 @@ class MetroType(models.Model):
 
 class Apartment(models.Model):
     owner = models.ForeignKey(Owner, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Собственник')
-    date_start = models.DateTimeField(blank=True, null=True, verbose_name='Начало продаж')
+    date_start = models.DateField(blank=True, null=True, verbose_name='Начало продаж')
 
     app_type = models.ForeignKey(ApartmentType, default=0, verbose_name='Тип недвижимости')
 
@@ -195,7 +194,7 @@ class Apartment(models.Model):
     active = models.BooleanField(default=True, verbose_name='Активный')
     calls = models.IntegerField(default=0, verbose_name='Звонки')
     views = models.IntegerField(default=0, verbose_name='Показы')
-    status = models.ForeignKey(StatusType, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Статус')
+    status = models.ForeignKey(StatusType, default=1, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Статус')
 
     class Meta:
         verbose_name = 'Объект'
@@ -205,7 +204,7 @@ class Apartment(models.Model):
         return self.name
 
 
-class Images(models.Model):
+class ImageApartment(models.Model):
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE, verbose_name='Квартира')
     image = models.ImageField(upload_to=image_path_with_name, blank=True, verbose_name='Фото')
 
@@ -217,7 +216,7 @@ class Images(models.Model):
         return self.apartment.name or None
 
 
-class Comments(models.Model):
+class CommentApartment(models.Model):
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE, verbose_name='Квартира')
     author = models.ForeignKey(User, verbose_name='Автор')
     date_pub = models.DateTimeField(auto_now_add=True, verbose_name='Дата')

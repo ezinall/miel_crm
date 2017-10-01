@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from . import views
+from app_cbase.views import set_status
 
 app_name = 'core'
 urlpatterns = [
@@ -28,4 +29,5 @@ urlpatterns = [
     url(r'^profile/$', views.profile_view, name='profile'),
     url(r'^login/$', views.login_view, name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
+    url(r'^set_status/(?P<apartment_id>[0-9]+)/(?P<status_id>[0-9]+)$', set_status, name='set_status'),
 ]

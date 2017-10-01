@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 # Create your views here
 
-from app_cbase.models.apartment_sec import Apartment
+from app_cbase.models.apartment_sec import Apartment, StatusType
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
@@ -31,20 +31,21 @@ def logout_view(request):
     return redirect('/')
 
 
-@login_required(login_url='login/')
+@login_required(login_url='core:login')
 def index_view(request):
     return render(request, 'core/index.html')
 
 
-@login_required(login_url='login/')
+@login_required(login_url='core:login')
 def panel_view(request):
     all_objects = Apartment.objects.all()
     objects = all_objects.filter(major=request.user)
-    context = {'objects': objects}
+    statuses = StatusType.objects.all()
+    context = {'objects': objects, 'statuses': statuses}
     return render(request, 'core/panel.html', context=context)
 
 
-@login_required(login_url='login/')
+@login_required(login_url='core:login')
 def objects_view(request):
     all_objects = Apartment.objects.all()
     objects = all_objects.filter(major=None)
@@ -52,26 +53,26 @@ def objects_view(request):
     return render(request, 'core/objects.html', context=context)
 
 
-@login_required(login_url='login/')
+@login_required(login_url='core:login')
 def calendar_view(request):
     return render(request, 'core/calendar.html')
 
 
-@login_required(login_url='login/')
+@login_required(login_url='core:login')
 def news_view(request):
     return render(request, 'core/news.html')
 
 
-@login_required(login_url='login/')
+@login_required(login_url='core:login')
 def docs_view(request):
     return render(request, 'core/docs.html')
 
 
-@login_required(login_url='login/')
+@login_required(login_url='core:login')
 def contacts_view(request):
     return render(request, 'core/contacts.html')
 
 
-@login_required(login_url='login/')
+@login_required(login_url='core:login')
 def profile_view(request):
     return render(request, 'core/profile.html')

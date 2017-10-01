@@ -6,12 +6,12 @@ from .models import *
 
 
 class ImagesInline(admin.StackedInline):
-    model = Images
+    model = ImageApartment
     extra = 1
 
 
 class CommentsInline(admin.StackedInline):
-    model = Comments
+    model = CommentApartment
     extra = 1
     readonly_fields = ['date_pub']
 

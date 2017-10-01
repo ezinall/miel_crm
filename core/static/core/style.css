@@ -1,7 +1,14 @@
 .table-nonfluid {
     width: 900px;
 }
-
+.d_line {
+    line-height: 0.9em;
+}.a_line {
+    line-height: 0.9em;
+}
+.p_line {
+    line-height: 0.2em;
+}
 /*
  * Base structure
  */

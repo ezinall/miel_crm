@@ -15,58 +15,71 @@
   </nav>
 {% endblock %}
 {% block content %}
-  <h2>Объекты</h2>
-  <div class="table-responsive">
-    <table class="table table-sm table-nonfluid">
-      <thead>
-        <tr>
-          <th>Дата добавления</th>
-          <th></th>
-          <th>Адрес, цена, комиссия</th>
-          <th>Звоники и показы</th>
-          <th>Статус</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for object in objects %}
-        <tr>
-          <td>
-            {{ object.date_pub.date }}
-          </td>
-          <td>
+  <div class="table-responsive row">
+    <div class="col-8">
+      <h2>Объекты <button type="button" class="btn btn-warning btn-sm float-right">Добавить объект</button></h2>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Дата добавления</th>
+            <th></th>
+            <th>Адрес, цена, комиссия</th>
+            <th>Звоники и показы</th>
+            <th>Статус</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for object in objects %}
+          <tr>
+            <td>
+              {{ object.id }}<br />
+              <p class="d_line"><small>{{ object.date_pub.date|date:'d E' }}<br />
+              {{ object.date_pub.time }}</small></p>
+            </td>
+            <td>
             {% if object.images_set.first %}
               {{ object.images_set.first }}
             {% endif %}
-          </td>
-          <td>
-            {{ object.name }}<br />
-            <small>{{ object.metro }}</small><br />
-            <small>комнат: {{ object.rooms }}, {{ object.total_area }} м<sup>2</sup>, этаж {{ object.floor }}/{{ object.floors }}</small><br />
-            {{ object.prise }} {{ object.prise_type }} <small>комиссия: {{ object.comm }} {{ object.comm_type }}</small><br />
-          </td>
-          <td>
-            {{ object.calls }}<br />
-            {{ object.views }}
-          </td>
-          <td>
-            {{ object.status }}
-          </td>
-          <td>
-            <div class="btn-group">
-              <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
+            </td>
+            <td>
+              <a href=""><strong>{{ object.name }}</strong></a><br />
+              {% if object.metro %}
+              &#127356; <small>{{ object.metro }}</small><br />
+              {% else %}
+              &#127356; <small>Не указанно</small><br />
+              {% endif %}
+              <p class="a_line"><small>{{ object.rooms }} ком,&ensp;{{ object.total_area }} м<sup>2</sup>,&ensp;этаж {{ object.floor }}/{{ object.floors }}</small></p>
+              <p class="p_line">{{ object.prise }} {{ object.prise_type }}&emsp;<small>{{ object.comm }} {{ object.comm_type }}</small></p>
+            </td>
+            <td>
+              {{ object.calls }}<br />
+              {{ object.views }}
+            </td>
+            <td class="align-middle">
+              <p style="color:{{ object.status.color }}">{{ object.status }}</p>
+            </td>
+            <td class="align-middle" >
+              <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu">
+                  {% for status in statuses|slice:":6" %}
+                  <a class="dropdown-item" href="{% url 'core:set_status' object.id status.id %}">{{ status.name }}</a>
+                  {% endfor %}
+                  <div class="dropdown-divider"></div>
+                  {% for status in statuses|slice:"6:" %}
+                  <a class="dropdown-item" href="{% url 'core:set_status' object.id status.id %}">{{ status.name }}</a>
+                  {% endfor %}
+                </div>
               </div>
-            </div>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-4">
+      <h2>Задачи <button type="button" class="btn btn-danger btn-sm float-right">Добавить задачу</button></h2>
+    </div>
   </div>
 {% endblock %}

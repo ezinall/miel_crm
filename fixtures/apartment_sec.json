@@ -254,5 +254,69 @@
       "name": "%",
       "alias": "%"
     }
+  },
+  {
+    "model": "app_cbase.StatusType",
+    "pk": 1,
+    "fields": {
+      "name": "Черновик",
+      "alias": "draft"
+    }
+  },
+  {
+    "model": "app_cbase.StatusType",
+    "pk": 2,
+    "fields": {
+      "name": "Модерация",
+      "alias": "moderation"
+    }
+  },
+  {
+    "model": "app_cbase.StatusType",
+    "pk": 3,
+    "fields": {
+      "name": "Опубликован",
+      "alias": "%"
+    }
+  },
+  {
+    "model": "app_cbase.StatusType",
+    "pk": 4,
+    "fields": {
+      "name": "Отклонен",
+      "alias": "published"
+    }
+  },
+  {
+    "model": "app_cbase.StatusType",
+    "pk": 5,
+    "fields": {
+      "name": "На паузе",
+      "alias": "pause"
+    }
+  },
+  {
+    "model": "app_cbase.StatusType",
+    "pk": 6,
+    "fields": {
+      "name": "Внесен аванс",
+      "alias": "payment"
+    }
+  },
+  {
+    "model": "app_cbase.StatusType",
+    "pk": 7,
+    "fields": {
+      "name": "Продан",
+      "alias": "sale"
+    }
+  },
+  {
+    "model": "app_cbase.StatusType",
+    "pk": 8,
+    "fields": {
+      "name": "Снят с продажи",
+      "alias": "drop"
+    }
   }
 ]
