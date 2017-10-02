@@ -6,17 +6,17 @@ from .models import *
 
 
 class ImagesInline(admin.StackedInline):
-    model = ImageApartment
+    model = FlatImage
     extra = 1
 
 
 class CommentsInline(admin.StackedInline):
-    model = CommentApartment
+    model = FlatComment
     extra = 1
     readonly_fields = ['date_pub']
 
 
-class ApartmentSecAdmin(admin.ModelAdmin):
+class EntitySecAdmin(admin.ModelAdmin):
     list_display = ['name', 'major']
     readonly_fields = ['date_pub', 'date_change']
     inlines = [ImagesInline, CommentsInline]
@@ -58,4 +58,4 @@ class ApartmentSecAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(Apartment, ApartmentSecAdmin)
+admin.site.register(Flat, EntitySecAdmin)

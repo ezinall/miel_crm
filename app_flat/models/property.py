@@ -31,7 +31,7 @@ class PropertyType(models.Model):  # тип недвижимости жилая 
         return self.name
 
 
-class ApartmentType(models.Model):  # Квартира, Квартира в новостройке, Комната, Доля в квартире, Дом/Дача, Коттедж,
+class FlatType(models.Model):  # Квартира, Квартира в новостройке, Комната, Доля в квартире, Дом/Дача, Коттедж,
     # Таунхаус, Часть дома, Участок
     property = models.ForeignKey(PropertyType, verbose_name='Тип недвижимости')
     name = models.CharField(max_length=LEN_FIELD, verbose_name='Тип объекта')

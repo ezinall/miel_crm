@@ -1,6 +1,6 @@
 [
   {
-    "model": "app_cbase.NumbersRooms",
+    "model": "app_flat.NumberRooms",
     "pk": 1,
     "fields": {
       "name": "1",
@@ -8,7 +8,7 @@
     }
   },
   {
-    "model": "app_cbase.NumbersRooms",
+    "model": "app_flat.NumberRooms",
     "pk": 2,
     "fields": {
       "name": "2",
@@ -16,7 +16,7 @@
     }
   },
   {
-    "model": "app_cbase.NumbersRooms",
+    "model": "app_flat.NumberRooms",
     "pk": 3,
     "fields": {
       "name": "3",
@@ -24,7 +24,7 @@
     }
   },
   {
-    "model": "app_cbase.NumbersRooms",
+    "model": "app_flat.NumberRooms",
     "pk": 4,
     "fields": {
       "name": "4",
@@ -32,7 +32,7 @@
     }
   },
   {
-    "model": "app_cbase.NumbersRooms",
+    "model": "app_flat.NumberRooms",
     "pk": 5,
     "fields": {
       "name": "5",
@@ -40,7 +40,7 @@
     }
   },
   {
-    "model": "app_cbase.NumbersRooms",
+    "model": "app_flat.NumberRooms",
     "pk": 6,
     "fields": {
       "name": "6 и более",
@@ -48,7 +48,7 @@
     }
   },
   {
-    "model": "app_cbase.NumbersRooms",
+    "model": "app_flat.NumberRooms",
     "pk": 7,
     "fields": {
       "name": "свободная планировка",
@@ -56,7 +56,7 @@
     }
   },
   {
-    "model": "app_cbase.NumbersRooms",
+    "model": "app_flat.NumberRooms",
     "pk": 8,
     "fields": {
       "name": "студия",
@@ -64,7 +64,7 @@
     }
   },
   {
-    "model": "app_cbase.RepairsType",
+    "model": "app_flat.RepairType",
     "pk": 1,
     "fields": {
       "name": "Косметический",
@@ -72,7 +72,7 @@
     }
   },
   {
-    "model": "app_cbase.RepairsType",
+    "model": "app_flat.RepairType",
     "pk": 2,
     "fields": {
       "name": "Евро",
@@ -80,7 +80,7 @@
     }
   },
   {
-    "model": "app_cbase.RepairsType",
+    "model": "app_flat.RepairType",
     "pk": 3,
     "fields": {
       "name": "Дизайнерский",
@@ -88,7 +88,7 @@
     }
   },
   {
-    "model": "app_cbase.RepairsType",
+    "model": "app_flat.RepairType",
     "pk": 4,
     "fields": {
       "name": "Без ремонта",
@@ -96,7 +96,7 @@
     }
   },
   {
-    "model": "app_cbase.HouseType",
+    "model": "app_flat.HouseType",
     "pk": 1,
     "fields": {
       "name": "Кирпичный",
@@ -104,7 +104,7 @@
     }
   },
   {
-    "model": "app_cbase.HouseType",
+    "model": "app_flat.HouseType",
     "pk": 2,
     "fields": {
       "name": "Монолитный",
@@ -112,7 +112,7 @@
     }
   },
   {
-    "model": "app_cbase.HouseType",
+    "model": "app_flat.HouseType",
     "pk": 3,
     "fields": {
       "name": "Панельный",
@@ -120,7 +120,7 @@
     }
   },
   {
-    "model": "app_cbase.HouseType",
+    "model": "app_flat.HouseType",
     "pk": 4,
     "fields": {
       "name": "Блочный",
@@ -128,7 +128,7 @@
     }
   },
   {
-    "model": "app_cbase.HouseType",
+    "model": "app_flat.HouseType",
     "pk": 5,
     "fields": {
       "name": "Деревянный",
@@ -136,7 +136,7 @@
     }
   },
   {
-    "model": "app_cbase.HouseType",
+    "model": "app_flat.HouseType",
     "pk": 6,
     "fields": {
       "name": "Монолитно-Кирпичный",
@@ -144,7 +144,7 @@
     }
   },
   {
-    "model": "app_cbase.HouseType",
+    "model": "app_flat.HouseType",
     "pk": 7,
     "fields": {
       "name": "Сталинский",
@@ -152,7 +152,7 @@
     }
   },
   {
-    "model": "app_cbase.ParkingType",
+    "model": "app_flat.ParkingType",
     "pk": 1,
     "fields": {
       "name": "Наземная",
@@ -160,7 +160,7 @@
     }
   },
   {
-    "model": "app_cbase.ParkingType",
+    "model": "app_flat.ParkingType",
     "pk": 2,
     "fields": {
       "name": "Многоуровневая",
@@ -168,7 +168,7 @@
     }
   },
   {
-    "model": "app_cbase.ParkingType",
+    "model": "app_flat.ParkingType",
     "pk": 3,
     "fields": {
       "name": "Подземная",
@@ -176,7 +176,7 @@
     }
   },
   {
-    "model": "app_cbase.ParkingType",
+    "model": "app_flat.ParkingType",
     "pk": 4,
     "fields": {
       "name": "На крыше",
@@ -184,7 +184,7 @@
     }
   },
   {
-    "model": "app_cbase.PriseType",
+    "model": "app_flat.PriseType",
     "pk": 1,
     "fields": {
       "name": "₽",
@@ -192,7 +192,7 @@
     }
   },
   {
-    "model": "app_cbase.PriseType",
+    "model": "app_flat.PriseType",
     "pk": 2,
     "fields": {
       "name": "$",
@@ -200,7 +200,7 @@
     }
   },
   {
-    "model": "app_cbase.PriseType",
+    "model": "app_flat.PriseType",
     "pk": 3,
     "fields": {
       "name": "€",
@@ -208,7 +208,7 @@
     }
   },
   {
-    "model": "app_cbase.SaleType",
+    "model": "app_flat.SaleType",
     "pk": 1,
     "fields": {
       "name": "Свободная продажа",
@@ -216,7 +216,7 @@
     }
   },
   {
-    "model": "app_cbase.SaleType",
+    "model": "app_flat.SaleType",
     "pk": 2,
     "fields": {
       "name": "Альтернатива",
@@ -224,7 +224,7 @@
     }
   },
   {
-    "model": "app_cbase.CommType",
+    "model": "app_flat.CommType",
     "pk": 1,
     "fields": {
       "name": "₽",
@@ -232,7 +232,7 @@
     }
   },
   {
-    "model": "app_cbase.CommType",
+    "model": "app_flat.CommType",
     "pk": 2,
     "fields": {
       "name": "$",
@@ -240,7 +240,7 @@
     }
   },
   {
-    "model": "app_cbase.CommType",
+    "model": "app_flat.CommType",
     "pk": 3,
     "fields": {
       "name": "€",
@@ -248,75 +248,11 @@
     }
   },
   {
-    "model": "app_cbase.CommType",
+    "model": "app_flat.CommType",
     "pk": 4,
     "fields": {
       "name": "%",
       "alias": "%"
-    }
-  },
-  {
-    "model": "app_cbase.StatusType",
-    "pk": 1,
-    "fields": {
-      "name": "Черновик",
-      "alias": "draft"
-    }
-  },
-  {
-    "model": "app_cbase.StatusType",
-    "pk": 2,
-    "fields": {
-      "name": "Модерация",
-      "alias": "moderation"
-    }
-  },
-  {
-    "model": "app_cbase.StatusType",
-    "pk": 3,
-    "fields": {
-      "name": "Опубликован",
-      "alias": "%"
-    }
-  },
-  {
-    "model": "app_cbase.StatusType",
-    "pk": 4,
-    "fields": {
-      "name": "Отклонен",
-      "alias": "published"
-    }
-  },
-  {
-    "model": "app_cbase.StatusType",
-    "pk": 5,
-    "fields": {
-      "name": "На паузе",
-      "alias": "pause"
-    }
-  },
-  {
-    "model": "app_cbase.StatusType",
-    "pk": 6,
-    "fields": {
-      "name": "Внесен аванс",
-      "alias": "payment"
-    }
-  },
-  {
-    "model": "app_cbase.StatusType",
-    "pk": 7,
-    "fields": {
-      "name": "Продан",
-      "alias": "sale"
-    }
-  },
-  {
-    "model": "app_cbase.StatusType",
-    "pk": 8,
-    "fields": {
-      "name": "Снят с продажи",
-      "alias": "drop"
     }
   }
 ]

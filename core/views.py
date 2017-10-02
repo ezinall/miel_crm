@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 # Create your views here
 
-from app_cbase.models.apartment_sec import Apartment, StatusType
+from app_flat.models import Flat, FlatStatus
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
@@ -38,16 +38,16 @@ def index_view(request):
 
 @login_required(login_url='core:login')
 def panel_view(request):
-    all_objects = Apartment.objects.all()
-    objects = all_objects.filter(major=request.user)
-    statuses = StatusType.objects.all()
-    context = {'objects': objects, 'statuses': statuses}
+    all_flats = Flat.objects.all()
+    flats = all_flats.filter(major=request.user)
+    statuses = FlatStatus.objects.all()
+    context = {'flats': flats, 'statuses': statuses}
     return render(request, 'core/panel.html', context=context)
 
 
 @login_required(login_url='core:login')
 def objects_view(request):
-    all_objects = Apartment.objects.all()
+    all_objects = Flat.objects.all()
     objects = all_objects.filter(major=None)
     context = {'objects': objects}
     return render(request, 'core/objects.html', context=context)

@@ -1,6 +1,6 @@
 [
   {
-    "model": "app_cbase.TransactionType",
+    "model": "app_flat.TransactionType",
     "pk": 1,
     "fields": {
       "name": "Аренда",
@@ -8,7 +8,7 @@
     }
   },
   {
-    "model": "app_cbase.TransactionType",
+    "model": "app_flat.TransactionType",
     "pk": 2,
     "fields": {
       "name": "Продажа",
@@ -16,7 +16,7 @@
     }
   },
   {
-    "model": "app_cbase.PropertyType",
+    "model": "app_flat.PropertyType",
     "pk": 1,
     "fields": {
       "transaction": 2,
@@ -25,7 +25,7 @@
     }
   },
   {
-    "model": "app_cbase.PropertyType",
+    "model": "app_flat.PropertyType",
     "pk": 2,
     "fields": {
       "transaction": 2,
@@ -34,7 +34,7 @@
     }
   },
   {
-    "model": "app_cbase.ApartmentType",
+    "model": "app_flat.FlatType",
     "pk": 1,
     "fields": {
       "property": 1,
@@ -43,7 +43,7 @@
     }
   },
   {
-    "model": "app_cbase.ApartmentType",
+    "model": "app_flat.FlatType",
     "pk": 2,
     "fields": {
       "property": 1,
@@ -52,7 +52,7 @@
     }
   },
   {
-    "model": "app_cbase.ApartmentType",
+    "model": "app_flat.FlatType",
     "pk": 3,
     "fields": {
       "property": 1,
@@ -61,7 +61,7 @@
     }
   },
   {
-    "model": "app_cbase.ApartmentType",
+    "model": "app_flat.FlatType",
     "pk": 4,
     "fields": {
       "property": 1,
@@ -70,7 +70,7 @@
     }
   },
   {
-    "model": "app_cbase.ApartmentType",
+    "model": "app_flat.FlatType",
     "pk": 5,
     "fields": {
       "property": 1,
@@ -79,7 +79,7 @@
     }
   },
   {
-    "model": "app_cbase.ApartmentType",
+    "model": "app_flat.FlatType",
     "pk": 6,
     "fields": {
       "property": 1,
@@ -88,7 +88,7 @@
     }
   },
   {
-    "model": "app_cbase.ApartmentType",
+    "model": "app_flat.FlatType",
     "pk": 7,
     "fields": {
       "property": 1,
@@ -97,7 +97,7 @@
     }
   },
   {
-    "model": "app_cbase.ApartmentType",
+    "model": "app_flat.FlatType",
     "pk": 8,
     "fields": {
       "property": 1,
@@ -106,7 +106,7 @@
     }
   },
   {
-    "model": "app_cbase.ApartmentType",
+    "model": "app_flat.FlatType",
     "pk": 9,
     "fields": {
       "property": 1,

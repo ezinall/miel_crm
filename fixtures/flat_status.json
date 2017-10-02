@@ -1,0 +1,74 @@
+[
+  {
+    "model": "app_flat.FlatStatus",
+    "pk": 1,
+    "fields": {
+      "name": "Черновик",
+      "color": "gray",
+      "alias": "draft"
+    }
+  },
+  {
+    "model": "app_flat.FlatStatus",
+    "pk": 2,
+    "fields": {
+      "name": "Модерация",
+      "color": "orange",
+      "alias": "moderation"
+    }
+  },
+  {
+    "model": "app_flat.FlatStatus",
+    "pk": 3,
+    "fields": {
+      "name": "Опубликован",
+      "color": "limegreen",
+      "alias": "published"
+    }
+  },
+  {
+    "model": "app_flat.FlatStatus",
+    "pk": 4,
+    "fields": {
+      "name": "Отклонен",
+      "color": "red",
+      "alias": "drop"
+    }
+  },
+  {
+    "model": "app_flat.FlatStatus",
+    "pk": 5,
+    "fields": {
+      "name": "На паузе",
+      "color": "deepskyblue",
+      "alias": "pause"
+    }
+  },
+  {
+    "model": "app_flat.FlatStatus",
+    "pk": 6,
+    "fields": {
+      "name": "Внесен аванс",
+      "color": "deepskyblue",
+      "alias": "payment"
+    }
+  },
+  {
+    "model": "app_flat.FlatStatus",
+    "pk": 7,
+    "fields": {
+      "name": "Продан",
+      "color": "gray",
+      "alias": "sale"
+    }
+  },
+  {
+    "model": "app_flat.FlatStatus",
+    "pk": 8,
+    "fields": {
+      "name": "Снят с продажи",
+      "color": "gray",
+      "alias": "drop"
+    }
+  }
+]

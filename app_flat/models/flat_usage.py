@@ -3,21 +3,14 @@ from django.db import models
 
 # Create your models here.
 
-import uuid
-
-from core.models import User
-from .owner import Owner
-from .ad import ApartmentType
+from django.contrib.auth.models import User
+from .property import FlatType
 
 LEN_FIELD = 100
 DEF_INTEGER = 0
 
 
-def image_path_with_name(instance, filename):
-    return 'apa_objects/%s/image/%s.%s' % (instance.id, str(uuid.uuid4()).split('-')[-1], filename.split('.')[-1])
-
-
-class NumbersRooms(models.Model):
+class NumberRooms(models.Model):
     name = models.CharField(max_length=LEN_FIELD, verbose_name='Количество комнат')
     alias = models.SlugField(max_length=LEN_FIELD)
 
@@ -29,7 +22,7 @@ class NumbersRooms(models.Model):
         return self.name
 
 
-class RepairsType(models.Model):
+class RepairType(models.Model):
     name = models.CharField(max_length=LEN_FIELD, verbose_name='Ремонт')
     alias = models.SlugField(max_length=LEN_FIELD)
 
@@ -41,7 +34,7 @@ class RepairsType(models.Model):
         return self.name
 
 
-class NamesPlace(models.Model):
+class NamePlace(models.Model):
     name = models.CharField(max_length=LEN_FIELD, verbose_name='ЖК')
     alias = models.SlugField(max_length=LEN_FIELD)
 
@@ -113,7 +106,7 @@ class CommType(models.Model):  # ₽ $ €
         return self.name
 
 
-class StatusType(models.Model):
+class FlatStatus(models.Model):
     name = models.CharField(max_length=LEN_FIELD, verbose_name='Статус')
     color = models.CharField(max_length=LEN_FIELD, verbose_name='Цвет')
     alias = models.SlugField(max_length=LEN_FIELD)
@@ -126,7 +119,7 @@ class StatusType(models.Model):
         return self.name
 
 
-class MetroType(models.Model):
+class Metro(models.Model):
     name = models.CharField(max_length=LEN_FIELD, verbose_name='Название')
     alias = models.SlugField(max_length=LEN_FIELD)
 
@@ -138,14 +131,14 @@ class MetroType(models.Model):
         return self.name
 
 
-class Apartment(models.Model):
-    owner = models.ForeignKey(Owner, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Собственник')
+class Flat(models.Model):
+    owner = models.ForeignKey('core.Client', blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Собственник')
     date_start = models.DateField(blank=True, null=True, verbose_name='Начало продаж')
 
-    app_type = models.ForeignKey(ApartmentType, default=0, verbose_name='Тип недвижимости')
+    app_type = models.ForeignKey(FlatType, default=0, verbose_name='Тип недвижимости')
 
     cadastral = models.CharField(max_length=LEN_FIELD, blank=True, verbose_name='Кадастровый номер')
-    rooms = models.ForeignKey(NumbersRooms, default=0, verbose_name='Количество комнат')
+    rooms = models.ForeignKey(NumberRooms, default=0, verbose_name='Количество комнат')
     apartments = models.BooleanField(default=False, verbose_name='Апартаменты')
     penthouse = models.BooleanField(default=False, verbose_name='Пентхаус')
     total_area = models.FloatField(verbose_name='Общая площадь')
@@ -160,18 +153,18 @@ class Apartment(models.Model):
     windows_street = models.BooleanField(blank=True, verbose_name='На улицу')
     separate_bath = models.IntegerField(default=0, verbose_name='Раздельные санузлы')  # validators=[0, 4],
     combine_bath = models.IntegerField(default=0, verbose_name='Совмещенные санузлы')  # validators=[0, 4],
-    repairs = models.ForeignKey(RepairsType, default=0, verbose_name='Ремонт')
+    repairs = models.ForeignKey(RepairType, default=0, verbose_name='Ремонт')
     phone = models.BooleanField(default=True, verbose_name='Телефон')
 
-    metro = models.ForeignKey(MetroType, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Метро')
+    metro = models.ForeignKey(Metro, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Метро')
 
-    name_place = models.ForeignKey(NamesPlace, blank=True, null=True, verbose_name='Название ЖК')
+    name_place = models.ForeignKey(NamePlace, blank=True, null=True, verbose_name='Название ЖК')
     year = models.PositiveIntegerField(blank=True, verbose_name='Год постройки')  # validators=[1420, int(date.today().year)],
     house_type = models.ForeignKey(HouseType, default=3, verbose_name='Тип дома')
     house_ver = models.CharField(max_length=LEN_FIELD, blank=True, verbose_name='Серия дома')
     ceiling = models.FloatField(default=2.7, verbose_name='Высота потолков')  # validators=[1, 10],
-    pas_lift = models.IntegerField(default=1, verbose_name='Пассажирский лифт')  # validators=[0, 4],
-    ser_lift = models.IntegerField(default=0, verbose_name='Грузовой лифт')  # validators=[MinValueValidator(0), MaxValueValidator(4)],
+    pas_lift = models.IntegerField(default=DEF_INTEGER, verbose_name='Пассажирский лифт')  # validators=[0, 4],
+    ser_lift = models.IntegerField(default=DEF_INTEGER, verbose_name='Грузовой лифт')  # validators=[MinValueValidator(0), MaxValueValidator(4)],
     ramp = models.BooleanField(default=True, verbose_name='Пандус')
     chute = models.BooleanField(default=True, verbose_name='Мусоропровод')
     parking = models.ForeignKey(ParkingType, default=0, verbose_name='Парковка')
@@ -194,7 +187,7 @@ class Apartment(models.Model):
     active = models.BooleanField(default=True, verbose_name='Активный')
     calls = models.IntegerField(default=0, verbose_name='Звонки')
     views = models.IntegerField(default=0, verbose_name='Показы')
-    status = models.ForeignKey(StatusType, default=1, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Статус')
+    status = models.ForeignKey(FlatStatus, default=1, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Статус')
 
     class Meta:
         verbose_name = 'Объект'
@@ -202,29 +195,3 @@ class Apartment(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class ImageApartment(models.Model):
-    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE, verbose_name='Квартира')
-    image = models.ImageField(upload_to=image_path_with_name, blank=True, verbose_name='Фото')
-
-    class Meta:
-        verbose_name = 'Фотография'
-        verbose_name_plural = 'Фотографии'
-
-    def __str__(self):
-        return self.apartment.name or None
-
-
-class CommentApartment(models.Model):
-    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE, verbose_name='Квартира')
-    author = models.ForeignKey(User, verbose_name='Автор')
-    date_pub = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
-    text = models.TextField(verbose_name='Текст')
-
-    class Meta:
-        verbose_name = 'Коментарий'
-        verbose_name_plural = 'Коментарии'
-
-    def __str__(self):
-        return self.apartment.name or None
