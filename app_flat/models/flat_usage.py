@@ -131,7 +131,7 @@ class Metro(models.Model):
         return self.name
 
 
-class Flat(models.Model):
+class FlatUsage(models.Model):
     owner = models.ForeignKey('core.Client', blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Собственник')
     date_start = models.DateField(blank=True, null=True, verbose_name='Начало продаж')
 
@@ -187,7 +187,7 @@ class Flat(models.Model):
     active = models.BooleanField(default=True, verbose_name='Активный')
     calls = models.IntegerField(default=0, verbose_name='Звонки')
     views = models.IntegerField(default=0, verbose_name='Показы')
-    status = models.ForeignKey(FlatStatus, default=1, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Статус')
+    status = models.ForeignKey(FlatStatus, default=1, on_delete=models.SET_DEFAULT, verbose_name='Статус')
 
     class Meta:
         verbose_name = 'Объект'

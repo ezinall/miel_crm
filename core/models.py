@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 
 from django.contrib.auth.models import User
-from app_flat.models import Flat
+from app_flat.models import FlatUsage
 
 LEN_FIELD = 100
 
@@ -18,7 +18,7 @@ class Profile(models.Model):
 class Task(models.Model):
     director = models.ForeignKey(User, verbose_name='Постановщик')
     executor = models.ManyToManyField(User, related_name='users_executor', verbose_name='Исполнитель')
-    target = models.ForeignKey(Flat, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Объект')
+    target = models.ForeignKey(FlatUsage, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Объект')
     create_date = models.DateTimeField(auto_now_add=True, verbose_name='Создана')
     deadline = models.DateTimeField(blank=True, verbose_name='Срок')
     label = models.CharField(max_length=LEN_FIELD, blank=True, verbose_name='Заголовок')

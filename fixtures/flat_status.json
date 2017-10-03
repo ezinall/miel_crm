@@ -3,6 +3,15 @@
     "model": "app_flat.FlatStatus",
     "pk": 1,
     "fields": {
+      "name": "Свободна",
+      "color": "gray",
+      "alias": "free"
+    }
+  },
+  {
+    "model": "app_flat.FlatStatus",
+    "pk": 2,
+    "fields": {
       "name": "Черновик",
       "color": "gray",
       "alias": "draft"
@@ -10,7 +19,7 @@
   },
   {
     "model": "app_flat.FlatStatus",
-    "pk": 2,
+    "pk": 3,
     "fields": {
       "name": "Модерация",
       "color": "orange",
@@ -19,7 +28,7 @@
   },
   {
     "model": "app_flat.FlatStatus",
-    "pk": 3,
+    "pk": 4,
     "fields": {
       "name": "Опубликован",
       "color": "limegreen",
@@ -28,7 +37,7 @@
   },
   {
     "model": "app_flat.FlatStatus",
-    "pk": 4,
+    "pk": 5,
     "fields": {
       "name": "Отклонен",
       "color": "red",
@@ -37,7 +46,7 @@
   },
   {
     "model": "app_flat.FlatStatus",
-    "pk": 5,
+    "pk": 6,
     "fields": {
       "name": "На паузе",
       "color": "deepskyblue",
@@ -46,7 +55,7 @@
   },
   {
     "model": "app_flat.FlatStatus",
-    "pk": 6,
+    "pk": 7,
     "fields": {
       "name": "Внесен аванс",
       "color": "deepskyblue",
@@ -55,7 +64,7 @@
   },
   {
     "model": "app_flat.FlatStatus",
-    "pk": 7,
+    "pk": 8,
     "fields": {
       "name": "Продан",
       "color": "gray",
@@ -64,7 +73,7 @@
   },
   {
     "model": "app_flat.FlatStatus",
-    "pk": 8,
+    "pk": 9,
     "fields": {
       "name": "Снят с продажи",
       "color": "gray",

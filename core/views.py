@@ -2,9 +2,12 @@ from django.shortcuts import render, redirect
 
 # Create your views here
 
-from app_flat.models import Flat, FlatStatus
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect
+
+from app_flat.models import FlatUsage, FlatStatus
+from .forms import TaskForm
 
 
 def login_view(request):
@@ -38,16 +41,19 @@ def index_view(request):
 
 @login_required(login_url='core:login')
 def panel_view(request):
-    all_flats = Flat.objects.all()
-    flats = all_flats.filter(major=request.user)
-    statuses = FlatStatus.objects.all()
-    context = {'flats': flats, 'statuses': statuses}
+    if request.POST:
+        pass
+    context = {}
+    all_flats = FlatUsage.objects.all()
+    context['flats'] = all_flats.filter(major=request.user)
+    context['statuses'] = FlatStatus.objects.all()
+    context['form'] = TaskForm
     return render(request, 'core/panel.html', context=context)
 
 
 @login_required(login_url='core:login')
 def objects_view(request):
-    all_objects = Flat.objects.all()
+    all_objects = FlatUsage.objects.all()
     objects = all_objects.filter(major=None)
     context = {'objects': objects}
     return render(request, 'core/objects.html', context=context)
@@ -76,3 +82,12 @@ def contacts_view(request):
 @login_required(login_url='core:login')
 def profile_view(request):
     return render(request, 'core/profile.html')
+
+
+@login_required(login_url='core:login')
+def task_new(request):
+    if request.POST:
+        print('HHHHAAAAAAAAAAAA')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    else:
+        pass

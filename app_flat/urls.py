@@ -18,6 +18,7 @@ from . import views
 
 app_name = 'flat'
 urlpatterns = [
+    url(r'^new/$', views.flat_new, name='flat_new'),
     url(r'^view/(?P<entity_id>[0-9]+)/$', views.flat_view, name='flat_view'),
-    url(r'^set_status/(?P<entity_id>[0-9]+)/(?P<status_id>[0-9]+)$', views.set_status, name='set_status'),
+    url(r'^set_status/(?P<entity_id>[0-9]+)/(?P<status_id>[0-9]+)$', views.set_status, name='flat_set_status'),
 ]

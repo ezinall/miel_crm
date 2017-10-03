@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 
 from django.contrib.auth.models import User
-from .flat_usage import Flat
+from .flat_usage import FlatUsage
 
 import uuid
 
@@ -16,7 +16,7 @@ def image_path_with_name(instance, filename):
 
 
 class FlatImage(models.Model):
-    apartment = models.ForeignKey(Flat, on_delete=models.CASCADE, verbose_name='Квартира')
+    apartment = models.ForeignKey(FlatUsage, on_delete=models.CASCADE, verbose_name='Квартира')
     image = models.ImageField(upload_to=image_path_with_name, blank=True, verbose_name='Фото')
 
     class Meta:
@@ -28,7 +28,7 @@ class FlatImage(models.Model):
 
 
 class FlatComment(models.Model):
-    apartment = models.ForeignKey(Flat, on_delete=models.CASCADE, verbose_name='Квартира')
+    apartment = models.ForeignKey(FlatUsage, on_delete=models.CASCADE, verbose_name='Квартира')
     author = models.ForeignKey(User, verbose_name='Автор')
     date_pub = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
     text = models.TextField(verbose_name='Текст')

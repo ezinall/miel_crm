@@ -58,4 +58,4 @@ class EntitySecAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(Flat, EntitySecAdmin)
+admin.site.register(FlatUsage, EntitySecAdmin)

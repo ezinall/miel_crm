@@ -21,15 +21,15 @@
         <div class="btn-group">
         Объекты
         </div>
-        <button type="button" class="btn btn-warning btn-sm float-right" data-toggle="modal" data-target="#new-entity-Modal" data-whatever="@getbootstrap">Добавить объект</button>
+        <a class="btn btn-warning btn-sm float-right" href="{% url 'flat:flat_new' %}" role="button">Добавить объект</a>
       </h2>
       <div class="progress">
-        {{ entities|length }}
-        <div class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-        <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-        <div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+        <!--{{ flats.status.pause|length }}-->
         <div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-        <div class="progress-bar bg-danger" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-success" role="progressbar" style="width: 40%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-danger" role="progressbar" style="width: 10%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+        <!--<div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>-->
       </div>
       <table class="table table-sm">
         <thead>
@@ -80,12 +80,12 @@
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="">Редактировать</a>
                   <div class="dropdown-divider"></div>
-                  {% for status in statuses|slice:":6" %}
-                  <a class="dropdown-item" href="{% url 'flat:set_status' flat.id status.id %}" style="color:{{ status.color }}">{{ status.name }}</a>
+                  {% for status in statuses|slice:":7" %}
+                  <a class="dropdown-item" href="{% url 'flat:flat_set_status' flat.id status.id %}" style="color:{{ status.color }}">{{ status.name }}</a>
                   {% endfor %}
                   <div class="dropdown-divider"></div>
-                  {% for status in statuses|slice:"6:" %}
-                  <a class="dropdown-item" href="{% url 'flat:set_status' flat.id status.id %}" style="color:{{ status.color }}">{{ status.name }}</a>
+                  {% for status in statuses|slice:"7:" %}
+                  <a class="dropdown-item" href="{% url 'flat:flat_set_status' flat.id status.id %}" style="color:{{ status.color }}">{{ status.name }}</a>
                   {% endfor %}
                 </div>
               </div>
@@ -96,7 +96,7 @@
       </table>
     </div>
     <div class="col-4">
-      <h2>Задачи <button type="button" class="btn btn-danger btn-sm float-right">Добавить задачу</button></h2>
+      <h2>Задачи <button type="button" class="btn btn-danger btn-sm float-right" data-toggle="modal" data-target="#new-task-Modal" data-whatever="@getbootstrap">Добавить задачу</button></h2>
       <div class="list-group">
         <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
         <a href="#" class="list-group-item list-group-item-action list-group-item-primary">This is a primary list group item</a>
@@ -111,30 +111,24 @@
     </div>
   </div>
 
-  <div class="modal fade" id="new-entity-Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="new-task-Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Новый объект</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Новая задача</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="recipient-name" class="form-control-label">Recipient:</label>
-              <input type="text" class="form-control" id="recipient-name">
-            </div>
-            <div class="form-group">
-              <label for="message-text" class="form-control-label">Message:</label>
-              <textarea class="form-control" id="message-text"></textarea>
-            </div>
+          <form action="{% url 'core:task_new' %}" method="post" id="task_new">
+            {% csrf_token %}
+            {{ form }}
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Send message</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+          <button type="submit" class="btn btn-primary" form="task_new">Добавить задачу</button>
         </div>
       </div>
     </div>

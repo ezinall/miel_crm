@@ -1,6 +1,6 @@
 [
   {
-    "model": "app_flat.Flat",
+    "model": "app_flat.FlatUsage",
     "pk": 1,
     "fields": {
       "owner": null,
@@ -55,7 +55,7 @@
     }
   },
   {
-    "model": "app_flat.Flat",
+    "model": "app_flat.FlatUsage",
     "pk": 2,
     "fields": {
       "owner": null,
@@ -110,7 +110,7 @@
     }
   },
   {
-    "model": "app_flat.Flat",
+    "model": "app_flat.FlatUsage",
     "pk": 3,
     "fields": {
       "owner": null,

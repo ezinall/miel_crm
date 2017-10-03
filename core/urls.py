@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^docs/$', views.docs_view, name='docs'),
     url(r'^contacts/$', views.contacts_view, name='contacts'),
     url(r'^profile/$', views.profile_view, name='profile'),
+    url(r'^task_new/$', views.task_new, name='task_new'),
     url(r'^login/$', views.login_view, name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
 ]
