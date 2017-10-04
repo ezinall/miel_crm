@@ -184,9 +184,9 @@ class FlatUsage(models.Model):
     date_pub = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
     date_change = models.DateTimeField(auto_now=True, verbose_name='Последнее изменение')
     name = models.CharField(max_length=LEN_FIELD, verbose_name='Название')
-    active = models.BooleanField(default=True, verbose_name='Активный')
     calls = models.IntegerField(default=0, verbose_name='Звонки')
     views = models.IntegerField(default=0, verbose_name='Показы')
+    active = models.BooleanField(default=True, verbose_name='Активный')
     status = models.ForeignKey(FlatStatus, default=1, on_delete=models.SET_DEFAULT, verbose_name='Статус')
 
     class Meta:

@@ -27,6 +27,8 @@ urlpatterns = [
     url(r'^contacts/$', views.contacts_view, name='contacts'),
     url(r'^profile/$', views.profile_view, name='profile'),
     url(r'^task_new/$', views.task_new, name='task_new'),
+    url(r'^task_done/(?P<task_id>[0-9]+)$', views.task_done, name='task_done'),
+    url(r'^task_del/(?P<task_id>[0-9]+)$', views.task_del, name='task_del'),
     url(r'^login/$', views.login_view, name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
 ]

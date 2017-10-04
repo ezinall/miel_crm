@@ -1,12 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here
+
+from django.contrib.auth.models import User
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 
 from app_flat.models import FlatUsage, FlatStatus
+from .models import Task, Client
 from .forms import TaskForm
 
 
@@ -29,6 +32,7 @@ def login_view(request):
         return render(request, 'core/login.html')
 
 
+@login_required(login_url='core:login')
 def logout_view(request):
     logout(request)
     return redirect('/')
@@ -45,7 +49,9 @@ def panel_view(request):
         pass
     context = {}
     all_flats = FlatUsage.objects.all()
+    all_tasks = Task.objects.all()
     context['flats'] = all_flats.filter(major=request.user)
+    context['tasks'] = all_tasks.filter(executor=request.user)
     context['statuses'] = FlatStatus.objects.all()
     context['form'] = TaskForm
     return render(request, 'core/panel.html', context=context)
@@ -87,7 +93,28 @@ def profile_view(request):
 @login_required(login_url='core:login')
 def task_new(request):
     if request.POST:
-        print('HHHHAAAAAAAAAAAA')
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.director = User.objects.get(id=request.user.id)
+            task.save()
+            form.save_m2m()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
         pass
+
+
+@login_required(login_url='core:login')
+def task_done(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    task.done = True
+    task.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required(login_url='core:login')
+def task_del(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    task.active = False
+    task.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

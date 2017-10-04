@@ -1,19 +1,6 @@
 {% extends 'core/base.html' %}
 {% block title %}Профиль{% endblock %}
-{% block menu %}
-  <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
-    <ul class="nav nav-pills flex-column">
-      <li class="nav-item"><a class="nav-link active" href="{% url 'core:panel' %}">Панель управления</a></li>
-      <li class="nav-item"><a class="nav-link" href="{% url 'core:objects' %}">Объекты</a></li>
-      <li class="nav-item"><a class="nav-link" href="{% url 'core:calendar' %}">Календарь</a></li>
-    </ul>
-    <ul class="nav nav-pills flex-column">
-      <li class="nav-item"><a class="nav-link" href="{% url 'core:news' %}">Новости</a></li>
-      <li class="nav-item"><a class="nav-link" href="{% url 'core:docs' %}">Документы</a></li>
-      <li class="nav-item"><a class="nav-link" href="{% url 'core:contacts' %}">Контакты</a></li>
-    </ul>
-  </nav>
-{% endblock %}
+
 {% block content %}
   <div class="table-responsive row">
     <div class="col-8">
@@ -95,9 +82,34 @@
         </tbody>
       </table>
     </div>
-    <div class="col-4">
+    <div class="col-4" id="menu">
       <h2>Задачи <button type="button" class="btn btn-danger btn-sm float-right" data-toggle="modal" data-target="#new-task-Modal" data-whatever="@getbootstrap">Добавить задачу</button></h2>
       <div class="list-group">
+        {% for task in tasks %}
+          {% if task.active %}
+            <a href="" data-toggle="collapse" data-target="#task_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action">{{ task.label }}</a>
+            <div id="task_{{ task.id }}" class="sublinks collapse">
+              <div class="list-group-item flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <!--<h5 class="mb-1">{{ task.label }}</h5>-->
+                  {% if task.deadline %}
+                  <small>{{ task.deadline|date:'d j' }}</small>
+                  {% endif %}
+                </div>
+                <p class="mb-1">{{ task.text }}</p>
+                <form id="task_del" action="{% url 'core:task_del' task.id %}"></form>
+                <form id="task_done" action="{% url 'core:task_done' task.id %}"></form>
+                <form class=text-right>
+                  {% if task.director == request.user %}
+                    <button type="submit" form="task_del" class="btn btn-danger btn-sm ">Удалить</button>
+                  {% else %}
+                    <button type="submit" form="task_done" class="btn btn-success btn-sm ">Выполнено</button>
+                  {% endif %}
+                </form>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
         <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
         <a href="#" class="list-group-item list-group-item-action list-group-item-primary">This is a primary list group item</a>
         <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">This is a secondary list group item</a>
@@ -115,7 +127,7 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Новая задача</h5>
+          <h5 class="modal-title">Новая задача</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -123,7 +135,12 @@
         <div class="modal-body">
           <form action="{% url 'core:task_new' %}" method="post" id="task_new">
             {% csrf_token %}
-            {{ form }}
+            <!--<select  data-toggle="{{ form.executor }}" size="1" multiple></select>-->
+            <!--<select class="form-control form-control-sm" name="target" id="id_target" data-toggle="{{ form.target }}"></select>-->
+            <!--<input class="form-control form-control-sm" name="deadline" id="id_deadline" type="datetime-local" value="2011-08-19T13:45:00">-->
+            <!--<input class="form-control form-control-sm" name="label" id="id_label" type="text" placeholder="Название">-->
+            <!--<textarea class="form-control form-control-sm" name="text" id="id_text" rows="3" placeholder="Текст"></textarea>-->
+            {{ form}}
           </form>
         </div>
         <div class="modal-footer">

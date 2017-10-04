@@ -1,19 +1,6 @@
 {% extends 'core/base.html' %}
 {% block title %}Профиль{% endblock %}
-{% block menu %}
-  <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
-    <ul class="nav nav-pills flex-column">
-      <li class="nav-item"><a class="nav-link" href="{% url 'core:panel' %}">Панель управления</a></li>
-      <li class="nav-item"><a class="nav-link" href="{% url 'core:objects' %}">Объекты</a></li>
-      <li class="nav-item"><a class="nav-link" href="{% url 'core:calendar' %}">Календарь</a></li>
-    </ul>
-    <ul class="nav nav-pills flex-column">
-      <li class="nav-item"><a class="nav-link" href="{% url 'core:news' %}">Новости</a></li>
-      <li class="nav-item"><a class="nav-link" href="{% url 'core:docs' %}">Документы</a></li>
-      <li class="nav-item"><a class="nav-link" href="{% url 'core:contacts' %}">Контакты</a></li>
-    </ul>
-  </nav>
-{% endblock %}
+
 {% block content %}
 ПРОФИЛЬ
 {% endblock %}
