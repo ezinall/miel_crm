@@ -105,6 +105,14 @@ def task_new(request):
 
 
 @login_required(login_url='core:login')
+def task_postpone(request, task_id, date):
+    task = get_object_or_404(Task, id=task_id)
+    task.deadline = date
+    task.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required(login_url='core:login')
 def task_done(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     task.done = True
