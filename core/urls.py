@@ -19,6 +19,8 @@ from . import views
 app_name = 'core'
 urlpatterns = [
     url(r'^$', views.index_view, name='index'),
+    url(r'^login/$', views.login_view, name='login'),
+    url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^panel/$', views.panel_view, name='panel'),
     url(r'^objects/$', views.objects_view, name='objects'),
     url(r'^calendar/$', views.calendar_view, name='calendar'),
@@ -30,6 +32,4 @@ urlpatterns = [
     url(r'^task_postpone/(?P<task_id>[0-9]+)$', views.task_postpone, name='task_postpone'),
     url(r'^task_done/(?P<task_id>[0-9]+)$', views.task_done, name='task_done'),
     url(r'^task_del/(?P<task_id>[0-9]+)$', views.task_del, name='task_del'),
-    url(r'^login/$', views.login_view, name='login'),
-    url(r'^logout/$', views.logout_view, name='logout'),
 ]

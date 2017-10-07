@@ -1,0 +1,30 @@
+[
+  {
+    "model": "core.TaskPriority",
+    "pk": 1,
+    "fields": {
+      "name": "Низкий"
+    }
+  },
+  {
+    "model": "core.TaskPriority",
+    "pk": 2,
+    "fields": {
+      "name": "Средний"
+    }
+  },
+  {
+    "model": "core.TaskPriority",
+    "pk": 3,
+    "fields": {
+      "name": "Высокий"
+    }
+  },
+  {
+    "model": "core.TaskPriority",
+    "pk": 4,
+    "fields": {
+      "name": "Срочно"
+    }
+  }
+]

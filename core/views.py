@@ -3,10 +3,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here
 
 from django.contrib.auth.models import User
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
+
+from datetime import date
 
 from app_flat.models import FlatUsage, FlatStatus
 from .models import Task, Client
@@ -54,6 +55,7 @@ def panel_view(request):
     context['tasks'] = all_tasks.filter(executor=request.user)
     context['statuses'] = FlatStatus.objects.all()
     context['form'] = TaskForm
+    context['date_now'] = date.today()
     return render(request, 'core/panel.html', context=context)
 
 

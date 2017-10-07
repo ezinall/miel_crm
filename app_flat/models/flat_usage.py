@@ -159,7 +159,7 @@ class FlatUsage(models.Model):
     metro = models.ForeignKey(Metro, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Метро')
 
     name_place = models.ForeignKey(NamePlace, blank=True, null=True, verbose_name='Название ЖК')
-    year = models.PositiveIntegerField(blank=True, verbose_name='Год постройки')  # validators=[1420, int(date.today().year)],
+    year = models.IntegerField(blank=True, null=True, verbose_name='Год постройки')  # validators=[1420, int(date.today().year)],
     house_type = models.ForeignKey(HouseType, default=3, verbose_name='Тип дома')
     house_ver = models.CharField(max_length=LEN_FIELD, blank=True, verbose_name='Серия дома')
     ceiling = models.FloatField(default=2.7, verbose_name='Высота потолков')  # validators=[1, 10],
@@ -172,7 +172,7 @@ class FlatUsage(models.Model):
     video = models.URLField(blank=True, verbose_name='Видео')
     info = models.TextField(verbose_name='Описание')
 
-    prise = models.PositiveIntegerField(default=DEF_INTEGER, verbose_name='Цена')
+    prise = models.IntegerField(default=DEF_INTEGER, verbose_name='Цена')
     prise_type = models.ForeignKey(PriseType, default=0, verbose_name='Валюта')
     mortgage = models.BooleanField(default=True, verbose_name='Возможна ипотека')
     sale_type = models.ForeignKey(SaleType, default=0, verbose_name='Тип продажи')

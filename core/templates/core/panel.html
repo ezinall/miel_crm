@@ -1,6 +1,8 @@
 {% extends 'core/base.html' %}
 {% block title %}Профиль{% endblock %}
 
+{% load flat_tags %}
+
 {% block content %}
   <div class="table-responsive row">
     <div class="col-8">
@@ -11,12 +13,10 @@
         <a class="btn btn-warning btn-sm float-right" href="{% url 'flat:flat_new' %}" role="button">Добавить объект</a>
       </h2>
       <div class="progress">
-        <!--{{ flats.status.pause|length }}-->
-        <div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-        <div class="progress-bar bg-success" role="progressbar" style="width: 40%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-        <div class="progress-bar bg-danger" role="progressbar" style="width: 10%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-        <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-        <!--<div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>-->
+        <div class="progress-bar bg-warning" role="progressbar" style="width: {{ flats|status_len:3 }}%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-success" role="progressbar" style="width: {{ flats|status_len:4 }}%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-danger" role="progressbar" style="width: {{ flats|status_len:5 }}%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar" role="progressbar" style="width: {{ flats|status_len:6 }}%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
       </div>
       <table class="table table-sm">
         <thead>
@@ -85,15 +85,51 @@
     <div class="col-4" id="menu">
       <h2>Задачи <button type="button" class="btn btn-danger btn-sm float-right" data-toggle="modal" data-target="#new-task-Modal" data-whatever="@getbootstrap">Добавить задачу</button></h2>
       <div class="list-group">
+        <h5>На сегодня&emsp;{% now "SHORT_DATE_FORMAT" %}</h5>
         {% for task in tasks %}
-          {% if task.active %}
-            <a href="" data-toggle="collapse" data-target="#task_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action">{{ task.label }}</a>
+          {% if (task.active and task.deadline == date_now) or (task.active and not task.deadline) %}
+            {% if task.priority.id == 1 %}
+            <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-light">{{ task.label }}</a>
+            {% elif task.priority.id == 2 %}
+            <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action">{{ task.label }}</a>
+            {% elif task.priority.id == 3 %}
+            <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-warning">{{ task.label }}</a>
+            {% elif task.priority.id == 4 %}
+            <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-danger">{{ task.label }}</a>
+            {% endif %}
+            <div id="task_today_{{ task.id }}" class="sublinks collapse">
+              <div class="list-group-item flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <!--<h5 class="mb-1">{{ task.label }}</h5>-->
+                  {% if task.deadline %}
+                  <small>{{ task.deadline|date:'d m y' }}</small>
+                  {% endif %}
+                </div>
+                <p class="mb-1">{{ task.text }}</p>
+                <form id="task_del_{{ task.id }}" action="{% url 'core:task_del' task.id %}"></form>
+                <form id="task_done_{{ task.id }}" action="{% url 'core:task_done' task.id %}"></form>
+                <form class=text-right>
+                  {% if task.director == request.user %}
+                    <button type="submit" form="task_del_{{ task.id }}" class="btn btn-danger btn-sm ">Удалить</button>
+                  {% else %}
+                    <button type="submit" form="task_done_{{ task.id }}" class="btn btn-success btn-sm ">Выполнено</button>
+                  {% endif %}
+                </form>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+        <p></p>
+        <h5>Просроченные</h5>
+        {% for task in tasks %}
+          {% if task.active and task.deadline < date_now %}
+            <a href="" data-toggle="collapse" data-target="#task_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-danger">{{ task.label }}</a>
             <div id="task_{{ task.id }}" class="sublinks collapse">
               <div class="list-group-item flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                   <!--<h5 class="mb-1">{{ task.label }}</h5>-->
                   {% if task.deadline %}
-                  <small>{{ task.deadline|date:'d j' }}</small>
+                  <small>{{ task.deadline|date:'d m y' }}</small>
                   {% endif %}
                 </div>
                 <p class="mb-1">{{ task.text }}</p>
@@ -110,15 +146,6 @@
             </div>
           {% endif %}
         {% endfor %}
-        <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-primary">This is a primary list group item</a>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">This is a secondary list group item</a>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-success">This is a success list group item</a>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-danger">This is a danger list group item</a>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-warning">This is a warning list group item</a>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-info">This is a info list group item</a>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-light">This is a light list group item</a>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-dark">This is a dark list group item</a>
       </div>
     </div>
   </div>
