@@ -34,7 +34,7 @@
           <tr>
             <td>
               {{ flat.id }}<br />
-              <p class="d_line"><small>{{ flat.date_pub.date|date:'d E' }}<br />
+              <p class="d_line"><small>{{ flat.date_pub|date:'d E' }}<br />
               {{ flat.date_pub.time }}</small></p>
             </td>
             <td class="align-middle">
@@ -87,20 +87,78 @@
       <div class="list-group">
         <h5>На сегодня&emsp;{% now "SHORT_DATE_FORMAT" %}</h5>
         {% for task in tasks %}
-          {% if (task.active and task.deadline == date_now) or (task.active and not task.deadline) %}
+          {% if task.active and task.deadline == date_now or task.active and not task.deadline %}
             {% if task.priority.id == 1 %}
-            <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-light">{{ task.label }}</a>
+            <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-light">{{ task.get_short_label }}</a>
             {% elif task.priority.id == 2 %}
-            <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action">{{ task.label }}</a>
+            <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action">{{ task.get_short_label }}</a>
             {% elif task.priority.id == 3 %}
-            <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-warning">{{ task.label }}</a>
+            <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-warning">{{ task.get_short_label }}</a>
             {% elif task.priority.id == 4 %}
-            <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-danger">{{ task.label }}</a>
+        <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-danger">{{ task.get_short_label }}</a>
             {% endif %}
             <div id="task_today_{{ task.id }}" class="sublinks collapse">
               <div class="list-group-item flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
-                  <!--<h5 class="mb-1">{{ task.label }}</h5>-->
+                  <h5 class="mb-1">{{ task.label }}</h5>
+                </div>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6"><small>{{ task.director.get_full_name }}</small></div>
+                    <div class="col-md-6">
+                      <span class="pull-right">
+                        {% if task.deadline %}
+                          <small>{{ task.deadline }}</small>
+                        {% endif %}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <p>{{ task.text|linebreaks }}</p>
+                {% for comment in task.taskcomments_set.all %}
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6"><small>{{ comment.author.get_full_name }}</small></div>
+                    <div class="col-md-6"><span class="pull-right"><small>{{ comment.date_pub }}</small></span>
+                    </div>
+                  </div>
+                </div>
+                <small>{{ comment.text|linebreaks }}</small>
+                {% endfor %}
+                <form id="task_del_today_{{ task.id }}" action="{% url 'core:task_del' task.id %}"></form>
+                <form id="task_done_today_{{ task.id }}" action="{% url 'core:task_done' task.id %}"></form>
+                <form action="{% url 'core:task_add_comment' task.id %}" method="post" id="task_new_comment">
+                  {% csrf_token %}
+                  {{ task_new_comment_form }}
+                </form>
+                <p></p>
+                <div class="container">
+                  <div class="row">
+                      <div class="col-6">
+                        <button type="submit" form="task_new_comment" class="btn btn-secondary btn-sm float-left">Добавить коментарий</button>
+                      </div>
+                      <div class="col-6">
+                        {% if task.director == request.user %}
+                          <button type="submit" form="task_del_today_{{ task.id }}" class="btn btn-danger btn-sm float-right">Удалить</button>
+                        {% else %}
+                          <button type="submit" form="task_done_today_{{ task.id }}" class="btn btn-success btn-sm float-right">Выполнено</button>
+                        {% endif %}
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+        <p></p>
+        <h5>Просроченные</h5>
+        {% for task in tasks %}
+          {% if task.active and task.deadline < date_now %}
+            <a href="" data-toggle="collapse" data-target="#task_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-danger">{{ task.get_short_label }}</a>
+            <div id="task_{{ task.id }}" class="sublinks collapse">
+              <div class="list-group-item flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ task.label }}</h5>
                   {% if task.deadline %}
                   <small>{{ task.deadline|date:'d m y' }}</small>
                   {% endif %}
@@ -113,33 +171,6 @@
                     <button type="submit" form="task_del_{{ task.id }}" class="btn btn-danger btn-sm ">Удалить</button>
                   {% else %}
                     <button type="submit" form="task_done_{{ task.id }}" class="btn btn-success btn-sm ">Выполнено</button>
-                  {% endif %}
-                </form>
-              </div>
-            </div>
-          {% endif %}
-        {% endfor %}
-        <p></p>
-        <h5>Просроченные</h5>
-        {% for task in tasks %}
-          {% if task.active and task.deadline < date_now %}
-            <a href="" data-toggle="collapse" data-target="#task_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-danger">{{ task.label }}</a>
-            <div id="task_{{ task.id }}" class="sublinks collapse">
-              <div class="list-group-item flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                  <!--<h5 class="mb-1">{{ task.label }}</h5>-->
-                  {% if task.deadline %}
-                  <small>{{ task.deadline|date:'d m y' }}</small>
-                  {% endif %}
-                </div>
-                <p class="mb-1">{{ task.text }}</p>
-                <form id="task_del" action="{% url 'core:task_del' task.id %}"></form>
-                <form id="task_done" action="{% url 'core:task_done' task.id %}"></form>
-                <form class=text-right>
-                  {% if task.director == request.user %}
-                    <button type="submit" form="task_del" class="btn btn-danger btn-sm ">Удалить</button>
-                  {% else %}
-                    <button type="submit" form="task_done" class="btn btn-success btn-sm ">Выполнено</button>
                   {% endif %}
                 </form>
               </div>
@@ -167,7 +198,7 @@
             <!--<input class="form-control form-control-sm" name="deadline" id="id_deadline" type="datetime-local" value="2011-08-19T13:45:00">-->
             <!--<input class="form-control form-control-sm" name="label" id="id_label" type="text" placeholder="Название">-->
             <!--<textarea class="form-control form-control-sm" name="text" id="id_text" rows="3" placeholder="Текст"></textarea>-->
-            {{ form}}
+            {{ task_new_form }}
           </form>
         </div>
         <div class="modal-footer">
@@ -177,4 +208,5 @@
       </div>
     </div>
   </div>
+
 {% endblock %}

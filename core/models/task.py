@@ -33,6 +33,12 @@ class Task(models.Model):
     done = models.BooleanField(default=False, verbose_name='Выполнено')
     active = models.BooleanField(default=True, verbose_name='Активный')
 
+    def get_short_label(self):
+        if len(self.label) >= 40:
+            return self.label[:40] + ' ...'
+        else:
+            return self.label
+
     class Meta:
         verbose_name = 'Задача'
         verbose_name_plural = 'Задачи'
@@ -52,4 +58,4 @@ class TaskComments(models.Model):
         verbose_name_plural = 'Коментарии'
 
     def __str__(self):
-        return self.task.name or None
+        return self.task.label or None

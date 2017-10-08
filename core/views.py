@@ -11,7 +11,7 @@ from datetime import date
 
 from app_flat.models import FlatUsage, FlatStatus
 from .models import Task, Client
-from .forms import TaskForm
+from .forms import TaskNewForm, TaskNewCommentForm
 
 
 def login_view(request):
@@ -52,9 +52,10 @@ def panel_view(request):
     all_flats = FlatUsage.objects.all()
     all_tasks = Task.objects.all()
     context['flats'] = all_flats.filter(major=request.user)
-    context['tasks'] = all_tasks.filter(executor=request.user)
+    context['tasks'] = all_tasks.filter(executor=request.user).order_by('-priority')
     context['statuses'] = FlatStatus.objects.all()
-    context['form'] = TaskForm
+    context['task_new_form'] = TaskNewForm
+    context['task_new_comment_form'] = TaskNewCommentForm
     context['date_now'] = date.today()
     return render(request, 'core/panel.html', context=context)
 
@@ -95,7 +96,7 @@ def profile_view(request):
 @login_required(login_url='core:login')
 def task_new(request):
     if request.POST:
-        form = TaskForm(request.POST)
+        form = TaskNewForm(request.POST)
         if form.is_valid():
             task = form.save(commit=False)
             task.director = User.objects.get(id=request.user.id)
@@ -103,7 +104,7 @@ def task_new(request):
             form.save_m2m()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
-        pass
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 @login_required(login_url='core:login')
@@ -127,4 +128,18 @@ def task_del(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     task.active = False
     task.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required(login_url='core:login')
+def task_add_comment(request, task_id):
+    if request.POST:
+        form = TaskNewCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.task = get_object_or_404(Task, id=task_id)
+            comment.author = User.objects.get(id=request.user.id)
+            form.save()
+    else:
+        form = TaskNewCommentForm()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
