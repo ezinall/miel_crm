@@ -95,9 +95,84 @@
             {% elif task.priority.id == 3 %}
             <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-warning">{{ task.get_short_label }}</a>
             {% elif task.priority.id == 4 %}
-        <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-danger">{{ task.get_short_label }}</a>
+            <a href="" data-toggle="collapse" data-target="#task_today_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-danger">{{ task.get_short_label }}</a>
             {% endif %}
             <div id="task_today_{{ task.id }}" class="sublinks collapse">
+              <div class="list-group-item flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ task.label }}</h5>
+                </div>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6">{{ task.director.get_full_name }}</div>
+                    <div class="col-md-6">
+                      <span class="pull-right">
+                        {% if task.deadline %}
+                          {{ task.deadline }}
+                        {% endif %}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="container">
+                  <div class="row">
+                    {% for executor in task.taskexecutor_set.all %}
+                      {% if executor.executor != request.user %}
+                    <div class="col-md-6"><small>{{ executor.executor.get_full_name }}</small></div>
+                    <div class="col-md-6">
+                      <span class="pull-right">
+                        {% if executor.done %}
+                          <small>&#10004;</small>
+                        {% endif %}
+                      </span>
+                    </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+                <p><a href="{% url 'flat:flat_view' task.target.id %}" >{{ task.target }}</a></p>
+                <p>{{ task.text|linebreaks }}</p>
+                {% for comment in task.taskcomments_set.all %}
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6"><small>{{ comment.author.get_full_name }}</small></div>
+                    <div class="col-md-6"><span class="pull-right"><small>{{ comment.date_pub }}</small></span>
+                    </div>
+                  </div>
+                </div>
+                <small>{{ comment.text|linebreaks }}</small>
+                {% endfor %}
+                <form id="task_del_today_{{ task.id }}" action="{% url 'core:task_del' task.id %}"></form>
+                <form id="task_done_today_{{ task.id }}" action="{% url 'core:task_done' task.id %}"></form>
+                <form action="{% url 'core:task_add_comment' task.id %}" method="post" id="task_today_new_comment_{{ task.id }}">
+                  {% csrf_token %}
+                  {{ task_comment_form }}
+                </form>
+                <p></p>
+                <div class="container">
+                  <div class="row">
+                      <div class="col-6">
+                        <button type="submit" form="task_today_new_comment_{{ task.id }}" class="btn btn-secondary btn-sm float-left">Добавить коментарий</button>
+                      </div>
+                      <div class="col-6">
+                        {% if task.director == request.user %}
+                          <button type="submit" form="task_del_today_{{ task.id }}" class="btn btn-danger btn-sm float-right">Удалить</button>
+                        {% else %}
+                          <button type="submit" form="task_done_today_{{ task.id }}" class="btn btn-success btn-sm float-right">Выполнено</button>
+                        {% endif %}
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+        <p></p>
+        <h5>Просроченные</h5>
+        {% for task in tasks %}
+          {% if task.active and task.deadline < date_now %}
+            <a href="" data-toggle="collapse" data-target="#task_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-danger">{{ task.get_short_label }}</a>
+            <div id="task_{{ task.id }}" class="sublinks collapse">
               <div class="list-group-item flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">{{ task.label }}</h5>
@@ -125,11 +200,11 @@
                 </div>
                 <small>{{ comment.text|linebreaks }}</small>
                 {% endfor %}
-                <form id="task_del_today_{{ task.id }}" action="{% url 'core:task_del' task.id %}"></form>
-                <form id="task_done_today_{{ task.id }}" action="{% url 'core:task_done' task.id %}"></form>
-                <form action="{% url 'core:task_add_comment' task.id %}" method="post" id="task_new_comment">
+                <form id="task_del_{{ task.id }}" action="{% url 'core:task_del' task.id %}"></form>
+                <form id="task_done_{{ task.id }}" action="{% url 'core:task_done' task.id %}"></form>
+                <form action="{% url 'core:task_add_comment' task.id %}" method="post" id="task_new_comment_{{ task.id }}">
                   {% csrf_token %}
-                  {{ task_new_comment_form }}
+                  {{ task_comment_form }}
                 </form>
                 <p></p>
                 <div class="container">
@@ -139,40 +214,13 @@
                       </div>
                       <div class="col-6">
                         {% if task.director == request.user %}
-                          <button type="submit" form="task_del_today_{{ task.id }}" class="btn btn-danger btn-sm float-right">Удалить</button>
+                          <button type="submit" form="task_del_{{ task.id }}" class="btn btn-danger btn-sm float-right">Удалить</button>
                         {% else %}
-                          <button type="submit" form="task_done_today_{{ task.id }}" class="btn btn-success btn-sm float-right">Выполнено</button>
+                          <button type="submit" form="task_done_{{ task.id }}" class="btn btn-success btn-sm float-right">Выполнено</button>
                         {% endif %}
                       </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          {% endif %}
-        {% endfor %}
-        <p></p>
-        <h5>Просроченные</h5>
-        {% for task in tasks %}
-          {% if task.active and task.deadline < date_now %}
-            <a href="" data-toggle="collapse" data-target="#task_{{ task.id }}" data-parent="#menu" class="list-group-item list-group-item-action list-group-item-danger">{{ task.get_short_label }}</a>
-            <div id="task_{{ task.id }}" class="sublinks collapse">
-              <div class="list-group-item flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">{{ task.label }}</h5>
-                  {% if task.deadline %}
-                  <small>{{ task.deadline|date:'d m y' }}</small>
-                  {% endif %}
-                </div>
-                <p class="mb-1">{{ task.text }}</p>
-                <form id="task_del_{{ task.id }}" action="{% url 'core:task_del' task.id %}"></form>
-                <form id="task_done_{{ task.id }}" action="{% url 'core:task_done' task.id %}"></form>
-                <form class=text-right>
-                  {% if task.director == request.user %}
-                    <button type="submit" form="task_del_{{ task.id }}" class="btn btn-danger btn-sm ">Удалить</button>
-                  {% else %}
-                    <button type="submit" form="task_done_{{ task.id }}" class="btn btn-success btn-sm ">Выполнено</button>
-                  {% endif %}
-                </form>
               </div>
             </div>
           {% endif %}
@@ -193,12 +241,18 @@
         <div class="modal-body">
           <form action="{% url 'core:task_new' %}" method="post" id="task_new">
             {% csrf_token %}
-            <!--<select  data-toggle="{{ form.executor }}" size="1" multiple></select>-->
+            <!--<select data-toggle="{{ form.executor }}" size="1" multiple></select>-->
             <!--<select class="form-control form-control-sm" name="target" id="id_target" data-toggle="{{ form.target }}"></select>-->
             <!--<input class="form-control form-control-sm" name="deadline" id="id_deadline" type="datetime-local" value="2011-08-19T13:45:00">-->
             <!--<input class="form-control form-control-sm" name="label" id="id_label" type="text" placeholder="Название">-->
             <!--<textarea class="form-control form-control-sm" name="text" id="id_text" rows="3" placeholder="Текст"></textarea>-->
-            {{ task_new_form }}
+            <!--{{ task_executor_form }}-->
+            <select class="form-control" size="5" name="user_id" multiple>
+            {% for user in users %}
+              <option value="{{ user.id }}">{{ user.get_full_name }}</option>
+            {% endfor %}
+            </select>
+            {{ task_form }}
           </form>
         </div>
         <div class="modal-footer">

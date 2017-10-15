@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.contrib.auth.models import User, Group
 
-from .models import Profile, GroupHead, UserPositionType, Task, TaskComments, Client
+from .models import Profile, GroupHead, UserPositionType, Task, TaskExecutor, TaskComments, Client
 
 
 class ProfileInline(admin.StackedInline):
@@ -29,13 +29,18 @@ class GroupAdmin(GroupAdmin):
     inlines = (GroupInline, )
 
 
+class TaskExecutorInline(admin.StackedInline):
+    model = TaskExecutor
+    extra = 1
+
+
 class TaskCommentsInline(admin.StackedInline):
     model = TaskComments
     extra = 1
 
 
 class TaskAdmin(admin.ModelAdmin):
-    inlines = (TaskCommentsInline, )
+    inlines = (TaskExecutorInline, TaskCommentsInline, )
 
 
 admin.site.unregister(User)
@@ -43,4 +48,4 @@ admin.site.register(User, UserAdmin)
 admin.site.unregister(Group)
 admin.site.register(Group, GroupAdmin)
 admin.site.register(Task, TaskAdmin)
-admin.site.register([UserPositionType, Client])
+admin.site.register([TaskExecutor, UserPositionType, Client])

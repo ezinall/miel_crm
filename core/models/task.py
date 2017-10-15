@@ -23,14 +23,12 @@ class TaskPriority(models.Model):
 
 class Task(models.Model):
     director = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Постановщик')
-    executor = models.ManyToManyField(User, related_name='task_executor', verbose_name='Исполнитель')
     target = models.ForeignKey(FlatUsage, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Объект')
     priority = models.ForeignKey(TaskPriority, default=2, verbose_name='Приоритет')
     create_date = models.DateTimeField(auto_now_add=True, verbose_name='Создана')
     deadline = models.DateField(blank=True, null=True, verbose_name='Срок')
     label = models.CharField(max_length=LEN_FIELD, verbose_name='Заголовок')
     text = models.TextField(blank=True, verbose_name='Текст')
-    done = models.BooleanField(default=False, verbose_name='Выполнено')
     active = models.BooleanField(default=True, verbose_name='Активный')
 
     def get_short_label(self):
@@ -58,4 +56,17 @@ class TaskComments(models.Model):
         verbose_name_plural = 'Коментарии'
 
     def __str__(self):
-        return self.task.label or None
+        return self.task.label
+
+
+class TaskExecutor(models.Model):
+    task = models.ForeignKey(Task, verbose_name='Задач')
+    executor = models.ForeignKey(User, default=1, verbose_name='Исполнтель')
+    done = models.BooleanField(default=False, verbose_name='Выполнено')
+
+    class Meta:
+        verbose_name = 'Задача-Исполинтель'
+        verbose_name_plural = 'Задача-Исполинтели'
+
+    def __str__(self):
+        return self.task.label

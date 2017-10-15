@@ -6,12 +6,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
+from django.db.models import Q
 
 from datetime import date
 
 from app_flat.models import FlatUsage, FlatStatus
-from .models import Task, Client
-from .forms import TaskNewForm, TaskNewCommentForm
+from .models import Task, Client, TaskExecutor
+from .forms import TaskExecutorForm, TaskForm, TaskCommentForm
 
 
 def login_view(request):
@@ -46,16 +47,15 @@ def index_view(request):
 
 @login_required(login_url='core:login')
 def panel_view(request):
-    if request.POST:
-        pass
     context = {}
-    all_flats = FlatUsage.objects.all()
-    all_tasks = Task.objects.all()
-    context['flats'] = all_flats.filter(major=request.user)
-    context['tasks'] = all_tasks.filter(executor=request.user).order_by('-priority')
+    taskexecutor = TaskExecutor.objects.filter(executor=request.user).values_list('task_id', flat=True)
+    context['flats'] = FlatUsage.objects.filter(major=request.user)
+    context['tasks'] = Task.objects.filter(Q(id__in=taskexecutor) | Q(director=request.user)).order_by('-priority')
     context['statuses'] = FlatStatus.objects.all()
-    context['task_new_form'] = TaskNewForm
-    context['task_new_comment_form'] = TaskNewCommentForm
+    context['users'] = User.objects.all()
+    context['task_form'] = TaskForm
+    context['task_executor_form'] = TaskExecutorForm
+    context['task_comment_form'] = TaskCommentForm
     context['date_now'] = date.today()
     return render(request, 'core/panel.html', context=context)
 
@@ -96,12 +96,17 @@ def profile_view(request):
 @login_required(login_url='core:login')
 def task_new(request):
     if request.POST:
-        form = TaskNewForm(request.POST)
+        form = TaskForm(request.POST)
         if form.is_valid():
             task = form.save(commit=False)
             task.director = User.objects.get(id=request.user.id)
             task.save()
-            form.save_m2m()
+            for user_id in request.POST.getlist('user_id'):
+                form = TaskExecutorForm()
+                taskexecutor = form.save(commit=False)
+                taskexecutor.task = get_object_or_404(Task, id=task.id)
+                taskexecutor.executor = get_object_or_404(User, id=int(user_id))
+                taskexecutor.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
@@ -117,9 +122,9 @@ def task_postpone(request, task_id, date):
 
 @login_required(login_url='core:login')
 def task_done(request, task_id):
-    task = get_object_or_404(Task, id=task_id)
-    task.done = True
-    task.save()
+    taskexecutor = get_object_or_404(TaskExecutor, task=task_id, executor=request.user)
+    taskexecutor.done = True
+    taskexecutor.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
@@ -134,12 +139,12 @@ def task_del(request, task_id):
 @login_required(login_url='core:login')
 def task_add_comment(request, task_id):
     if request.POST:
-        form = TaskNewCommentForm(request.POST)
+        form = TaskCommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.task = get_object_or_404(Task, id=task_id)
             comment.author = User.objects.get(id=request.user.id)
-            form.save()
-    else:
-        form = TaskNewCommentForm()
+            comment.save()
+        else:
+            form = TaskCommentForm()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
