@@ -1,6 +1,8 @@
 {% extends 'core/base.html' %}
 {% block title %}Профиль{% endblock %}
 
+{% load l10n %}
+
 {% load flat_tags %}
 
 {% block content %}
@@ -52,7 +54,7 @@
               &#127356; <small>Не указанно</small><br />
               {% endif %}
               <p class="a_line"><small>{{ flat.rooms }} ком,&ensp;{{ flat.total_area }} м<sup>2</sup>,&ensp;этаж {{ flat.floor }}/{{ flat.floors }}</small></p>
-              <p class="p_line">{{ flat.prise }} {{ flat.prise_type }}&emsp;<small>{{ flat.comm }} {{ flat.comm_type }}</small></p>
+              <p class="p_line">{{ flat.prise|sep_price }} {{ flat.prise_type }}&emsp;<small>{{ flat.comm|sep_price }} {{ flat.comm_type }}</small></p>
             </td>
             <td>
               {{ flat.calls }}<br />

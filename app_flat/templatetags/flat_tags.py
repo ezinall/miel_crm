@@ -13,3 +13,15 @@ def status_len(flats, status_id):
     else:
         flat_list = flats.filter(status=status_id)
         return int(len(flat_list) / len(flats) * 100)
+
+
+@register.filter
+def sep_price(price):
+    counter = 0
+    format_price = ''
+    for i in reversed(str(price)):
+        counter += 1
+        format_price += i
+        if not counter % 3 and counter < len(str(price)):
+            format_price += ' '
+    return format_price[::-1]
