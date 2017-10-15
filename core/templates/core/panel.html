@@ -85,6 +85,7 @@
     <div class="col-4" id="menu">
       <h2>Задачи <button type="button" class="btn btn-danger btn-sm float-right" data-toggle="modal" data-target="#new-task-Modal" data-whatever="@getbootstrap">Добавить задачу</button></h2>
       <div class="list-group">
+
         <h5>На сегодня&emsp;{% now "SHORT_DATE_FORMAT" %}</h5>
         {% for task in tasks %}
           {% if task.active and task.deadline == date_now or task.active and not task.deadline %}
@@ -168,6 +169,7 @@
           {% endif %}
         {% endfor %}
         <p></p>
+
         <h5>Просроченные</h5>
         {% for task in tasks %}
           {% if task.active and task.deadline < date_now %}
@@ -179,16 +181,33 @@
                 </div>
                 <div class="container">
                   <div class="row">
-                    <div class="col-md-6"><small>{{ task.director.get_full_name }}</small></div>
+                    <div class="col-md-6">{{ task.director.get_full_name }}</div>
                     <div class="col-md-6">
                       <span class="pull-right">
                         {% if task.deadline %}
-                          <small>{{ task.deadline }}</small>
+                          {{ task.deadline }}
                         {% endif %}
                       </span>
                     </div>
                   </div>
                 </div>
+								<div class="container">
+									<div class="row">
+										{% for executor in task.taskexecutor_set.all %}
+											{% if executor.executor != request.user %}
+										<div class="col-md-6"><small>{{ executor.executor.get_full_name }}</small></div>
+										<div class="col-md-6">
+											<span class="pull-right">
+												{% if executor.done %}
+													<small>&#10004;</small>
+												{% endif %}
+											</span>
+										</div>
+											{% endif %}
+										{% endfor %}
+									</div>
+                </div>
+								<p><a href="{% url 'flat:flat_view' task.target.id %}" >{{ task.target }}</a></p>
                 <p>{{ task.text|linebreaks }}</p>
                 {% for comment in task.taskcomments_set.all %}
                 <div class="container">
@@ -210,7 +229,7 @@
                 <div class="container">
                   <div class="row">
                       <div class="col-6">
-                        <button type="submit" form="task_new_comment" class="btn btn-secondary btn-sm float-left">Добавить коментарий</button>
+                        <button type="submit" form="task_new_comment_{{ task.id }}" class="btn btn-secondary btn-sm float-left">Добавить коментарий</button>
                       </div>
                       <div class="col-6">
                         {% if task.director == request.user %}
