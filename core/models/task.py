@@ -32,8 +32,8 @@ class Task(models.Model):
     active = models.BooleanField(default=True, verbose_name='Активный')
 
     def get_short_label(self):
-        if len(self.label) >= 40:
-            return self.label[:40] + ' ...'
+        if len(str(self.label)) >= 40:
+            return '%s ...' % (str(self.label[:40]))
         else:
             return self.label
 
@@ -48,7 +48,7 @@ class Task(models.Model):
 class TaskComments(models.Model):
     task = models.ForeignKey(Task, verbose_name='Объект')
     author = models.ForeignKey(User, verbose_name='Автор')
-    date_pub = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
+    create_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
     text = models.TextField(verbose_name='Текст')
 
     class Meta:
