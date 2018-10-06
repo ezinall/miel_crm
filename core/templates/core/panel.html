@@ -133,7 +133,9 @@
                     {% endfor %}
                   </div>
                 </div>
+                {% if task.target %}
                 <p><a href="{% url 'flat:flat_view' task.target.id %}" >{{ task.target }}</a></p>
+                {% endif %}
                 <p>{{ task.text|linebreaks }}</p>
                 {% for comment in task.taskcomments_set.all %}
                 <div class="container">
@@ -209,7 +211,9 @@
 										{% endfor %}
 									</div>
                 </div>
-								<p><a href="{% url 'flat:flat_view' task.target.id %}" >{{ task.target }}</a></p>
+								{% if task.target %}
+                <p><a href="{% url 'flat:flat_view' task.target.id %}" >{{ task.target }}</a></p>
+                {% endif %}
                 <p>{{ task.text|linebreaks }}</p>
                 {% for comment in task.taskcomments_set.all %}
                 <div class="container">
